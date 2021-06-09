@@ -9,46 +9,46 @@ export default {
   // 小程序
   /**
    * 小程序-设置缓存
-   * @param {String} key 
-   * @param {Object} value 
+   * @param {String} key
+   * @param {Object} value
    */
   setStorage(key, value) {
     wx.setStorage(key, value);
   },
   /**
    * 小程序-设置缓存（同步）
-   * @param {String} key 
-   * @param {Object} value 
+   * @param {String} key
+   * @param {Object} value
    */
   setStorageSync(key, value) {
     wx.setStorageSync(key, value);
   },
   /**
    * 小程序-通过key从缓存中获取数据
-   * @param {String} key 
+   * @param {String} key
    * @returns {*} 返回获取的值
    */
   getStorage(key) {
-    return wx.getStorage(key) || '';
+    return wx.getStorage(key) || "";
   },
   /**
    * 小程序-通过key从缓存中获取数据（同步）
-   * @param {String} key 
+   * @param {String} key
    * @returns {*} 返回获取的值
    */
   getStorageSync(key) {
-    return wx.getStorageSync(key) || '';
+    return wx.getStorageSync(key) || "";
   },
   /**
    * 小程序-通过key从缓存中删除数据
-   * @param {String} key 
+   * @param {String} key
    */
   removeStorage(key) {
     wx.removeStorage(key);
   },
   /**
    * 小程序-通过key从缓存中删除数据（同步）
-   * @param {String} key 
+   * @param {String} key
    */
   removeStorageSync(key) {
     wx.removeStorageSync(key);
@@ -69,22 +69,22 @@ export default {
   // window的localStorage操作
   /**
    * 设置localStorage缓存数据
-   * @param {String} key 
-   * @param {Object} value 
+   * @param {String} key
+   * @param {Object} value
    */
   setLocalStorage(key, value) {
-    window.localStorage.setItem(key, value)
+    window.localStorage.setItem(key, value);
   },
   /**
    * 通过key从localStorage缓存中获取数据
-   * @param {String} key 
+   * @param {String} key
    */
   getLocalStorage(key) {
-    return window.localStorage.getItem(key) || '';
+    return window.localStorage.getItem(key) || "";
   },
   /**
    * 通过key从localStorage缓存中删除数据
-   * @param {String} key 
+   * @param {String} key
    */
   removeLocalStorage(key) {
     window.localStorage.removeItem(key);
@@ -97,24 +97,24 @@ export default {
   },
   /**
    * 设置sessionStorage缓存数据
-   * @param {String} key 
-   * @param {Object} value 
+   * @param {String} key
+   * @param {Object} value
    */
   setSessionStorage(key, value) {
     window.sessionStorage.setItem(key, value);
   },
   /**
    * 通过key从sessionStorage缓存中获取数据
-   * @param {String} key 
-   * @param {Object} value 
+   * @param {String} key
+   * @param {Object} value
    */
   getSessionStorage(key) {
-    return window.sessionStorage.getItem(key) || '';
+    return window.sessionStorage.getItem(key) || "";
   },
   /**
    * 通过key从sessionStorage缓存中删除数据
-   * @param {String} key 
-   * @param {Object} value 
+   * @param {String} key
+   * @param {Object} value
    */
   removeSessionStorage(key) {
     window.sessionStorage.removeItem(key);
@@ -131,32 +131,35 @@ export default {
    * window-设置cookie
    * @param {String} key 设置的key
    * @param {Object} value 设置的value
-   * @param {DateTime} timestamp 过期的时间戳，可以设置天，小时，分钟等，如果设置一天的时间戳天即为： 24*60*60*1000
+   * @param {DateTime} expirestamp 过期的时间戳，可以设置天，小时，分钟等，如果设置一天的时间戳天即为： 24*60*60*1000
    */
-  setCookie(key, value, timestamp) {
-    window.document.cookie = key + '=' + value + ';expires=' + this.formatTimestampToDate(this.getDefaultTimestamp() + timestamp);
+  setCookie(key, value, expirestamp) {
+    let date = new Date();
+    date.setTime(date.getTime() + expirestamp);
+    window.document.cookie =
+      key + "=" + value + ";expires=" + date.toUTCString() + ";path=/;";
   },
   /**
    * 通过key获得cookie存储的值
-   * @param {*} key 
+   * @param {*} key
    * @return 返回获取的值，或者返回空字符串
    */
   getCookie(key) {
-    let arr = window.document.cookie.split(';');
+    let arr = window.document.cookie.split(";");
     for (let i = 0; i < arr[i].length; i++) {
-      let arr2 = arr[i].split('=');
+      let arr2 = arr[i].split("=");
       if (arr2[0] == key) {
         return arr2[1];
       }
-      return '';
+      return "";
     }
   },
   /**
    * 通过key删除cookie的值
-   * @param {*} key 
+   * @param {*} key
    */
   removeCookie(key) {
-    this.setCookie(key, '', -1);
+    this.setCookie(key, "", -1);
   },
   /**
    * 清空当前沾点的所有cookie
@@ -164,8 +167,8 @@ export default {
   clearCookie() {
     let keys = window.document.cookie.match(/[^ =;]+(?=\=)/g);
     if (keys) {
-      for (let i = keys.length; i--;)
-        document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString()
+      for (let i = keys.length; i--; )
+        document.cookie = keys[i] + "=0;expires=" + new Date(0).toUTCString();
     }
   },
 
@@ -184,7 +187,7 @@ export default {
    * @returns 返回true和false
    */
   isNumber(value) {
-    return (Object.prototype.toString.call(value).slice(8, -1) === 'Number');
+    return Object.prototype.toString.call(value).slice(8, -1) === "Number";
   },
   /**
    * 判断是否是Date
@@ -192,7 +195,7 @@ export default {
    * @returns 返回true和false
    */
   isDate(value) {
-    return (Object.prototype.toString.call(value).slice(8, -1) === 'Date');
+    return Object.prototype.toString.call(value).slice(8, -1) === "Date";
   },
   /**
    * 判断是否是Object
@@ -200,7 +203,7 @@ export default {
    * @returns 返回true和false
    */
   isObject(value) {
-    return (Object.prototype.toString.call(value).slice(8, -1) === 'Object');
+    return Object.prototype.toString.call(value).slice(8, -1) === "Object";
   },
   /**
    * 判断是否是Array
@@ -208,7 +211,7 @@ export default {
    * @returns 返回true和false
    */
   isArray(value) {
-    return (Object.prototype.toString.call(value).slice(8, -1) === 'Array');
+    return Object.prototype.toString.call(value).slice(8, -1) === "Array";
   },
   /**
    * 判断是否是String
@@ -216,7 +219,7 @@ export default {
    * @returns 返回true和false
    */
   isString(value) {
-    return (Object.prototype.toString.call(value).slice(8, -1) === 'String');
+    return Object.prototype.toString.call(value).slice(8, -1) === "String";
   },
   /**
    * 判断是否是Boolean
@@ -224,7 +227,7 @@ export default {
    * @returns 返回true和false
    */
   isBoolean(value) {
-    return (Object.prototype.toString.call(value).slice(8, -1) === 'Boolean');
+    return Object.prototype.toString.call(value).slice(8, -1) === "Boolean";
   },
   /**
    * 判断是否是Function
@@ -232,7 +235,7 @@ export default {
    * @returns 返回true和false
    */
   isFunction(value) {
-    return (Object.prototype.toString.call(value).slice(8, -1) === 'Function');
+    return Object.prototype.toString.call(value).slice(8, -1) === "Function";
   },
   /**
    * 判断字符串是否全是中文
@@ -240,7 +243,7 @@ export default {
    * @returns 返回true和false
    */
   isChinese(value) {
-    return (/^[\u4E00-\u9FA5]+$/.test(value))
+    return /^[\u4E00-\u9FA5]+$/.test(value);
   },
 
   // 数字字符串转数字类型
@@ -278,7 +281,13 @@ export default {
    * @returns 返回true和false
    */
   isNull(value) {
-    return (value == undefined || value == null || value == '' || (this.isObject(value) && Object.keys(value).length == 0) || value.length == 0);
+    return (
+      value == undefined ||
+      value == null ||
+      value == "" ||
+      (this.isObject(value) && Object.keys(value).length == 0) ||
+      value.length == 0
+    );
   },
 
   // 字符串去空格操作
@@ -289,7 +298,7 @@ export default {
    */
   trim(value) {
     if (this.isNull(value)) return;
-    return value.replace(/(^\s*)|(\s*$)/g, '');
+    return value.replace(/(^\s*)|(\s*$)/g, "");
   },
   /**
    * 去除字符串左边空格
@@ -298,7 +307,7 @@ export default {
    */
   trimLeft(value) {
     if (this.isNull(value)) return;
-    return value.replace(/(^\s*)/g, '');
+    return value.replace(/(^\s*)/g, "");
   },
   /**
    * 去除字符串右边空格
@@ -316,7 +325,7 @@ export default {
    */
   trimAll(value) {
     if (this.isNull(value)) return;
-    return value.replace(/\s+/g, '');
+    return value.replace(/\s+/g, "");
   },
   /**
    * 数字前补齐零
@@ -325,7 +334,7 @@ export default {
    */
   digit(value) {
     value = value.toString();
-    return value[1] ? value : '0' + value;
+    return value[1] ? value : "0" + value;
   },
   /**
    * 生成tUUID
@@ -334,34 +343,49 @@ export default {
    * @returns 返回UUID字符串，例如：5e71b6a38364c189ab1229bf5c2d5695
    */
   getUUID(len = 32, radix = 16) {
-    const CHARS = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+    const CHARS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".split(
+      ""
+    );
     let uuid = [],
       i;
     radix = radix || CHARS.length;
     if (len) {
-      for (i = 0; i < len; i++) uuid[i] = CHARS[0 | Math.random() * radix];
+      for (i = 0; i < len; i++) uuid[i] = CHARS[0 | (Math.random() * radix)];
     } else {
       let r;
-      uuid[8] = uuid[13] = uuid[18] = uuid[23] = '-';
-      uuid[14] = '4';
+      uuid[8] = uuid[13] = uuid[18] = uuid[23] = "-";
+      uuid[14] = "4";
       for (i = 0; i < 36; i++) {
         if (!uuid[i]) {
-          r = 0 | Math.random() * 16;
-          uuid[i] = CHARS[(i == 19) ? (r & 0x3) | 0x8 : r];
+          r = 0 | (Math.random() * 16);
+          uuid[i] = CHARS[i == 19 ? (r & 0x3) | 0x8 : r];
         }
       }
     }
-    return uuid.join('');
+    return uuid.join("");
   },
   /**
    * 生成GUID
    * @returns 返回GUID字符串，例如：e854e2ec-063c-1ee7-942f-57c5733ce0cb
    */
   getGUID() {
-    let s4 = function () {
+    let s4 = function() {
       return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
-    }
-    return (s4() + s4() + "-" + s4() + "-" + s4() + "-" + s4() + "-" + s4() + s4() + s4());
+    };
+    return (
+      s4() +
+      s4() +
+      "-" +
+      s4() +
+      "-" +
+      s4() +
+      "-" +
+      s4() +
+      "-" +
+      s4() +
+      s4() +
+      s4()
+    );
   },
   /**
    * 生成指定大小的随机数
@@ -378,7 +402,9 @@ export default {
    * @returns 返回指定位数的随机数
    */
   getRandomDigit(n = 1) {
-    return Math.floor((Math.random() + Math.floor(Math.random() * 9 + 1)) * Math.pow(10, n - 1));
+    return Math.floor(
+      (Math.random() + Math.floor(Math.random() * 9 + 1)) * Math.pow(10, n - 1)
+    );
   },
   /**
    * 数字补齐0到指定位数的字符串
@@ -388,7 +414,7 @@ export default {
    */
   prefixZero(value, length = 2) {
     if (this.isNull(value)) return;
-    return (Array(length).join('0') + value).slice(-length);
+    return (Array(length).join("0") + value).slice(-length);
   },
 
   // 常用转换操作
@@ -457,7 +483,7 @@ export default {
    * @returns 返回true和false
    */
   isLeapYear(year) {
-    return (year % 100 !== 0 && year % 4 === 0) || (year % 400 === 0);
+    return (year % 100 !== 0 && year % 4 === 0) || year % 400 === 0;
   },
   /**
    * 获得日期Date，默认为当前日期
@@ -473,7 +499,7 @@ export default {
    * @param {String} separator 年月日分隔符，默认“-”分隔
    * @returns 返回yyyy-MM-dd格式的日期字符串
    */
-  getDefaultDate(date = new Date(), separator = '-') {
+  getDefaultDate(date = new Date(), separator = "-") {
     let year = date.getFullYear();
     let month = date.getMonth() + 1;
     let day = date.getDate();
@@ -482,17 +508,21 @@ export default {
   /**
    * 获得日期DateTime字符串，默认为当前时间
    * @param {Date} date 可以为空，默认当前日期；也可以指定任意日期Date
-   * @param {String} separator 年月日分隔符，默认“-” 
+   * @param {String} separator 年月日分隔符，默认“-”
    * @returns 返回yyyy-MM-dd HH:mm:ss格式的时间字符串
    */
-  getDefaultDateTime(date = new Date(), separator = '-') {
+  getDefaultDateTime(date = new Date(), separator = "-") {
     let year = date.getFullYear();
     let month = date.getMonth() + 1;
     let day = date.getDate();
     let hour = date.getHours();
     let minute = date.getMinutes();
     let second = date.getSeconds();
-    return [year, month, day].map(this.digit).join(separator) + ' ' + [hour, minute, second].map(this.digit).join(':');
+    return (
+      [year, month, day].map(this.digit).join(separator) +
+      " " +
+      [hour, minute, second].map(this.digit).join(":")
+    );
   },
 
   /**
@@ -535,11 +565,13 @@ export default {
    * @param {String} type 可为空，默认为zh；zh：返回周一，周二的中文；参数为空：返回1,2的数字
    * @returns 返回对应的中文的周几或者数字的周几
    */
-  getWeekDay(date = new Date(), type = 'zh') {
+  getWeekDay(date = new Date(), type = "zh") {
     if (this.isNull(date)) return;
-    let day = '';
-    if (type && type == 'zh') {
-      day = new Array("周日", "周一", "周二", "周三", "周四", "周五", "周六")[date.getDay()];
+    let day = "";
+    if (type && type == "zh") {
+      day = new Array("周日", "周一", "周二", "周三", "周四", "周五", "周六")[
+        date.getDay()
+      ];
     } else {
       day = new Array("7", "1", "2", "3", "4", "5", "6")[date.getDay()];
     }
@@ -565,9 +597,12 @@ export default {
   getYearMonthAllDayArray(year, month) {
     if (this.isNull(year) || this.isNull(month)) return;
     month = this.parseInt(month);
-    return Array.from({
-      length: new Date(year, month, 0).getDate()
-    }, (item, index) => index + 1);
+    return Array.from(
+      {
+        length: new Date(year, month, 0).getDate()
+      },
+      (item, index) => index + 1
+    );
   },
   /**
    * 获得某年的某月的最后一天是几号
@@ -582,24 +617,24 @@ export default {
   },
   /**
    * 日期字符串转换为数组
-   * 
+   *
    * @param {String} dateStr 日期字符串，格式支持yyyy-MM-dd，yyyy-MM-dd HH:mm:ss，yyyy/MM/dd，yyyy/MM/dd HH:mm:ss
    * @returns 返回字符串数组
    */
   dateStrToArray(dateStr) {
     if (this.isNull(dateStr)) return;
-    dateStr = dateStr.replace(/(\-)|(\:)|(\s)|(\/)/g, ',');
+    dateStr = dateStr.replace(/(\-)|(\:)|(\s)|(\/)/g, ",");
     return dateStr.split(",");
   },
   /**
    * 时间字符串转换为数组
-   * 
+   *
    * @param {String} dateTimeStr 时间字符串，格式支持yyyy-MM-dd，yyyy-MM-dd HH:mm:ss，yyyy/MM/dd，yyyy/MM/dd HH:mm:ss
    * @returns 返回字符串数组
    */
   dateTimeStrToArray(dateTimeStr) {
     if (this.isNull(dateTimeStr)) return;
-    dateTimeStr = dateTimeStr.replace(/(\-)|(\:)|(\s)|(\/)/g, ',');
+    dateTimeStr = dateTimeStr.replace(/(\-)|(\:)|(\s)|(\/)/g, ",");
     return dateTimeStr.split(",");
   },
   /**
@@ -650,7 +685,11 @@ export default {
    */
   getDiffDateStrNum(dateStr1, dateStr2) {
     if (this.isNull(dateStr1) || this.isNull(dateStr2)) return 0;
-    return (this.formatStrToDate(dateStr2).getTime() - this.formatStrToDate(dateStr1).getTime()) / (24 * 60 * 60 * 1000);
+    return (
+      (this.formatStrToDate(dateStr2).getTime() -
+        this.formatStrToDate(dateStr1).getTime()) /
+      (24 * 60 * 60 * 1000)
+    );
   },
   /**
    * 计算两个日期Data时间戳之间相差的天数
@@ -674,7 +713,7 @@ export default {
   },
   /**
    * 获得两个日期Date之间所有日期数组
-   * 
+   *
    * @param {Date} startDate 开始日期
    * @param {Date} endDate 结束日期
    * @returns 返回两个日期Date之间的所有字符串数组；参数为空返回空[]
@@ -684,7 +723,7 @@ export default {
     let diffDateArray = [];
     while (endDate.getTime() - startDate.getTime() >= 0) {
       let year = startDate.getFullYear();
-      let month = this.digit((startDate.getMonth() + 1));
+      let month = this.digit(startDate.getMonth() + 1);
       let day = this.digit(startDate.getDate());
       diffDateArray.push(year + "-" + month + "-" + day);
       startDate.setDate(startDate.getDate() + 1);
@@ -693,7 +732,7 @@ export default {
   },
   /**
    * 获得两个日期字符串之间所有日期数组
-   * 
+   *
    * @param {String} startStr 开始时间
    * @param {String} endStr 结束时间
    * @returns 返回两个日期字符串之间的所有字符串数组；参数为空返回空[]
@@ -705,7 +744,7 @@ export default {
     let endDate = this.formatStrToDate(endStr);
     while (endDate.getTime() - startDate.getTime() >= 0) {
       let year = startDate.getFullYear();
-      let month = this.digit((startDate.getMonth() + 1));
+      let month = this.digit(startDate.getMonth() + 1);
       let day = this.digit(startDate.getDate());
       diffDateArray.push(year + "-" + month + "-" + day);
       startDate.setDate(startDate.getDate() + 1);
@@ -723,19 +762,27 @@ export default {
     let o = {
       "M+": date.getMonth() + 1, // 月
       "d+": date.getDate(), // 日
-      "h+": (date.getHours() % 12) == 0 ? 12 : (date.getHours() % 12), // 12小时制
+      "h+": date.getHours() % 12 == 0 ? 12 : date.getHours() % 12, // 12小时制
       "H+": date.getHours(), // 24小时制
       "m+": date.getMinutes(), // 分钟
       "s+": date.getSeconds(), // 秒
-      "q+": Math.floor((date.getMonth() + 3) / 3), //季度 
-      "S": date.getMilliseconds(), //毫秒 
+      "q+": Math.floor((date.getMonth() + 3) / 3), //季度
+      S: date.getMilliseconds() //毫秒
     };
     if (/(y+)/.test(formatStr)) {
-      formatStr = formatStr.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
+      formatStr = formatStr.replace(
+        RegExp.$1,
+        (date.getFullYear() + "").substr(4 - RegExp.$1.length)
+      );
     }
     for (let k in o) {
       if (new RegExp("(" + k + ")").test(formatStr))
-        formatStr = formatStr.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        formatStr = formatStr.replace(
+          RegExp.$1,
+          RegExp.$1.length == 1
+            ? o[k]
+            : ("00" + o[k]).substr(("" + o[k]).length)
+        );
     }
     return formatStr;
   },
@@ -746,7 +793,7 @@ export default {
    */
   formatStrToDate(dateStr) {
     if (this.isNull(dateStr)) return;
-    return new Date(dateStr.replace(/-/g, '/'));
+    return new Date(dateStr.replace(/-/g, "/"));
   },
   /**
    * 比较两个日期Date的大小
@@ -808,15 +855,15 @@ export default {
    * @returns 返回格式化后的字符串
    */
   formatFileSize(size) {
-    if (this.isNull(size)) return '0B';
+    if (this.isNull(size)) return "0B";
     if (size < 1024) {
-      return size + 'B';
-    } else if (size < (1024 * 1024)) {
-      return (size / 1024).toFixed(2) + 'KB';
-    } else if (size < (1024 * 1024 * 1024)) {
-      return (size / (1024 * 1024)).toFixed(2) + 'MB';
+      return size + "B";
+    } else if (size < 1024 * 1024) {
+      return (size / 1024).toFixed(2) + "KB";
+    } else if (size < 1024 * 1024 * 1024) {
+      return (size / (1024 * 1024)).toFixed(2) + "MB";
     } else {
-      return (size / (1024 * 1024 * 1024)).toFixed(2) + 'GB';
+      return (size / (1024 * 1024 * 1024)).toFixed(2) + "GB";
     }
   },
   /**
@@ -826,7 +873,7 @@ export default {
    */
   getFileName(value) {
     if (this.isNull(value) || this.isNull(value)) return;
-    return value.substring(0, value.lastIndexOf('.'));
+    return value.substring(0, value.lastIndexOf("."));
   },
   /**
    * 获得文件后缀
@@ -835,6 +882,6 @@ export default {
    */
   getFileSuffixName(value) {
     if (this.isNull(value)) return;
-    return value.substring(value.lastIndexOf('.') + 1);
-  },
-}
+    return value.substring(value.lastIndexOf(".") + 1);
+  }
+};

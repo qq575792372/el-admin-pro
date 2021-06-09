@@ -1,21 +1,26 @@
 import Vue from 'vue'
 
+// import normalize
 import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 
+// import element
 import ElementUI from 'element-ui'
 // import 'element-ui/lib/theme-chalk/index.css'
-// 使用新的主题颜色配置覆盖默认的
+// 使用新的主题颜色配置，覆盖element ui默认的
 import '@/styles/element-variables.scss'
 
 // import locale from 'element-ui/lib/locale/lang/en' // lang i18n
 
-import '@/styles/index.scss' // global css
+// import global scss
+import '@/styles/index.scss' // global scss
 
+// import app/store/router
 import App from './App'
 import store from './store'
 import router from './router'
 
-import '@/icons' // icon
+// import icons and permission
+import '@/icons' // icon svg components
 import '@/permission' // permission control
 
 /**
@@ -34,11 +39,14 @@ import '@/permission' // permission control
 
 // set ElementUI lang to EN
 // Vue.use(ElementUI, { locale })
-// 如果想要中文版 element-ui，按如下方式声明
+
+// set ElementUI lang to zh
 Vue.use(ElementUI)
 
+// 设置为false以阻止vue在启动时生成生产提示。
 Vue.config.productionTip = false
 
+// 创建vue实例
 new Vue({
   el: '#app',
   router,

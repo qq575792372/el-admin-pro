@@ -67,4 +67,4 @@ npm run lint
 npm run lint -- --fix
 ```
 
-本模板基于vue-element-admin，更多使用信息参考 [使用文档](https://panjiachen.github.io/vue-element-admin-site/zh/)
+本模板基于vue-element-admin，更多使用信息参考 [使用文档](https://panjiachen.gitee.io/vue-element-admin-site/zh/)

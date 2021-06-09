@@ -20,6 +20,17 @@
   transition: none !important;
 }
 
+// 去掉el-pagination自带的padding
+.el-pagination {
+  padding: 0px;
+}
+
+// 将el-row的布局改为flex，避免有些组件列过多时候会错位的bug
+.el-row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 // to fixed https://github.com/ElemeFE/element/issues/2461
 .el-dialog {
   transform: none;
@@ -43,7 +54,7 @@
 // dropdown
 .el-dropdown-menu {
   a {
-    display: block
+    display: block;
   }
 }
 
@@ -52,17 +63,46 @@
   box-sizing: content-box;
 }
 
-// to fix message width to long
+// 重新定义elmessage的样式，风格antd
 .el-message {
   min-width: auto;
   padding: 12px 16px;
+  background: #ffffff;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.15);
+  border: 0px;
+
+  // icon
+  .el-message__icon {
+    font-size: 16px;
+    margin-right: 8px;
+    // info类型
+    &.el-icon-info {
+      color: #00a3ff;
+    }
+  }
+  // loading类型
+  .el-icon-loading {
+    color: #00a3ff;
+    font-size: 16px;
+    margin-right: 8px;
+  }
+  // content
+  .el-message__content {
+    font-size: 14px;
+    color: #666666;
+  }
+  // 关闭按钮
+  &.is-closable .el-message__content {
+    padding-right: 26px;
+  }
 }
 
 // el-link add margin
 .el-link {
-  margin: 0px 3px;
-
-  .el-link--inner {
-    margin-left: 2px !important;
+  &:not(:first-child) {
+    margin-left: 3px;
   }
+  // 修复在el-table中使用el-link，文字高度过高导致下划线位置不对
+  line-height: 1.3;
 }

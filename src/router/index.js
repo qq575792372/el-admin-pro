@@ -1,10 +1,10 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue from "vue";
+import Router from "vue-router";
 
-Vue.use(Router)
+Vue.use(Router);
 
 /* Layout */
-import Layout from '@/layout'
+import Layout from "@/layout";
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -32,33 +32,35 @@ import Layout from '@/layout'
  */
 export const constantRoutes = [
   {
-    path: '/login',
-    component: () => import('@/views/login/index'),
+    path: "/login",
+    component: () => import("@/views/login/index"),
     hidden: true
   },
 
   {
-    path: '/404',
-    component: () => import('@/views/404'),
+    path: "/404",
+    component: () => import("@/views/404"),
     hidden: true
   },
 
   {
-    path: '/401',
-    component: () => import('@/views/401'),
+    path: "/401",
+    component: () => import("@/views/401"),
     hidden: true
   },
 
   // 首页
   {
-    path: '/',
+    path: "/",
     component: Layout,
-    redirect: '/home',
-    children: [{
-      path: 'home',
-      component: () => import('@/views/home/index'),
-      meta: { title: '首页', icon: 'el-icon-s-home' }
-    }]
+    redirect: "/home",
+    children: [
+      {
+        path: "home",
+        component: () => import("@/views/home/index"),
+        meta: { title: "首页", icon: "el-icon-s-home" }
+      }
+    ]
   },
 
   // 没有首页，默认跳转到指定页面
@@ -70,54 +72,57 @@ export const constantRoutes = [
 
   // 示例页面
   {
-    path: '/table',
+    path: "/table",
     component: Layout,
-    redirect: '/table/index',
+    redirect: "/table/index",
     meta: {
-      title: '表格',
-      icon: 'el-icon-s-grid'
+      title: "表格",
+      icon: "el-icon-s-grid"
     },
     alwaysShow: true,
-    children: [{
-      path: 'index',
-      component: () => import('@/views/table/index'),
-      meta: {
-        title: '示例',
+    children: [
+      {
+        path: "index",
+        component: () => import("@/views/table/index"),
+        meta: {
+          title: "示例"
+        }
       }
-    }]
+    ]
   },
 
   // 跳转外部链接
   {
-    path: '跳转外部链接',
+    path: "跳转外部链接",
     component: Layout,
     children: [
       {
-        path: 'https://www.baidu.com',
-        meta: { title: '跳转外部链接', icon: 'link' }
+        path: "https://www.baidu.com",
+        meta: { title: "跳转外部链接", icon: "link" }
       }
     ]
   },
 
   // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
-]
+  { path: "*", redirect: "/404", hidden: true }
+];
 
-const createRouter = () => new Router({
-  // mode: 'history', //使用history模式，需要设置base
-  // base: '/',
-  scrollBehavior: () => ({ y: 0 }),
-  routes: constantRoutes
-})
+const createRouter = () =>
+  new Router({
+    // mode: 'history', // 使用history模式，需要设置base路径
+    // base: process.env.BASE_URL,
+    scrollBehavior: () => ({ y: 0 }),
+    routes: constantRoutes
+  });
 
-const router = createRouter()
+const router = createRouter();
 
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
 export function resetRouter() {
-  const newRouter = createRouter()
-  router.matcher = newRouter.matcher // reset router
-  // 防止退出后再登录，查询的权限菜单会有重复的路由
-  router.options.routes = constantRoutes
+  const newRouter = createRouter();
+  router.matcher = newRouter.matcher; // reset router
+  // 防止退出后再登录，再次加载权限菜单会有重复的路由
+  router.options.routes = constantRoutes;
 }
 
-export default router
+export default router;

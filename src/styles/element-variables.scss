@@ -9,9 +9,12 @@ $--color-success: #19be6b;
 $--color-warning: #ff9900;
 $--color-danger: #ed4014;
 
+/* text color */
+
+/* button */
 $--button-font-weight: 400;
 
 /* 改变 icon 字体路径变量，必需 */
-$--font-path: '~element-ui/lib/theme-chalk/fonts';
+$--font-path: "~element-ui/lib/theme-chalk/fonts";
 
 @import "~element-ui/packages/theme-chalk/src/index";

@@ -89,8 +89,8 @@ export default {
     return {
       // 登录表单
       loginForm: {
-        username: 'admin',
-        password: '88888888',
+        username: '',
+        password: '',
         validcode: '',
       },
       // 登录表单验证规则

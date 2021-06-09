@@ -71,10 +71,18 @@
         </el-table-column>
         <el-table-column align="center" label="操作">
           <template slot-scope="scope">
-            <el-link type="primary" @click="showEditModal(scope.row)">
+            <el-link
+              type="primary"
+              :underline="false"
+              @click="showEditModal(scope.row)"
+            >
               编辑
             </el-link>
-            <el-link type="danger" @click="handleDelete(scope.row)">
+            <el-link
+              type="danger"
+              :underline="false"
+              @click="handleDelete(scope.row)"
+            >
               删除
             </el-link>
           </template>
@@ -177,11 +185,17 @@
 
 <script>
 // 引入富文本框组件
-import Tinymce from '@/components/Tinymce'
+import Tinymce from "@/components/Tinymce";
 // 引入util工具类
-import util from '@/utils/util.js'
+import util from "@/utils/util.js";
 // 引入接口api
-import { getList, addTable, updateTable, deleteTable, uploadFile } from '@/api/table.js'
+import {
+  getList,
+  addTable,
+  updateTable,
+  deleteTable,
+  uploadFile,
+} from "@/api/table.js";
 
 export default {
   // 引入富文本组件
@@ -193,75 +207,90 @@ export default {
       listTotal: 0,
       listLoading: false,
       listQuery: {
-        name: '',
-        status: '',
+        name: "",
+        status: "",
         pageNo: 1,
-        pageSize: 10
+        pageSize: 10,
       },
 
       // 新增和编辑信息
       editModal: false,
       editForm: {
-        id: '', // 活动id
-        name: '', // 活动名称
-        price: '', // 参与价格
-        imageUrl: '', // 封面图片
-        desc: '', // 活动介绍
+        id: "", // 活动id
+        name: "", // 活动名称
+        price: "", // 参与价格
+        imageUrl: "", // 封面图片
+        desc: "", // 活动介绍
       },
       editFormRules: {
-        name: [{
-          required: true,
-          message: "请输入活动名称",
-          trigger: "blur",
-        }],
-        price: [{
-          required: true,
-          message: "请输入活动价格",
-          trigger: "blur",
-        }],
-        imageUrl: [{
-          required: true,
-          message: "请上传封面图片",
-          trigger: "change",
-        }],
-        desc: [{
-          required: true,
-          message: "请输入活动介绍",
-          trigger: "blur",
-        }],
+        name: [
+          {
+            required: true,
+            message: "请输入活动名称",
+            trigger: "blur",
+          },
+        ],
+        price: [
+          {
+            required: true,
+            message: "请输入活动价格",
+            trigger: "blur",
+          },
+        ],
+        imageUrl: [
+          {
+            required: true,
+            message: "请上传封面图片",
+            trigger: "change",
+          },
+        ],
+        desc: [
+          {
+            required: true,
+            message: "请输入活动介绍",
+            trigger: "blur",
+          },
+        ],
       },
 
       // 图片预览
-      previewImageUrl: '',
+      previewImageUrl: "",
       previewImageModal: false,
-    }
+    };
   },
   created() {
-    this.list = [{
-      id: 1,
-      name: '活动1',
-      price: 10.00,
-      imageUrl: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3946423775,168689942&fm=26&gp=0.jpg',
-      status: 0,
-      desc: '<h1>测试1111</h1>',
-      createTime: '2020-08-10 10:10:10',
-    }, {
-      id: 2,
-      name: '活动2',
-      price: 10.00,
-      imageUrl: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3946423775,168689942&fm=26&gp=0.jpg',
-      status: 1,
-      desc: '<h1>测试2222</h1>',
-      createTime: '2020-08-10 10:10:10',
-    }, {
-      id: 3,
-      name: '活动3',
-      price: 10.00,
-      imageUrl: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3946423775,168689942&fm=26&gp=0.jpg',
-      status: 2,
-      desc: '<h1>测试333</h1>',
-      createTime: '2020-08-10 10:10:10',
-    }]
+    this.list = [
+      {
+        id: 1,
+        name: "活动1",
+        price: 10.0,
+        imageUrl:
+          "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3946423775,168689942&fm=26&gp=0.jpg",
+        status: 0,
+        desc: "<h1>测试1111</h1>",
+        createTime: "2020-08-10 10:10:10",
+      },
+      {
+        id: 2,
+        name: "活动2",
+        price: 10.0,
+        imageUrl:
+          "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3946423775,168689942&fm=26&gp=0.jpg",
+        status: 1,
+        desc: "<h1>测试2222</h1>",
+        createTime: "2020-08-10 10:10:10",
+      },
+      {
+        id: 3,
+        name: "活动3",
+        price: 10.0,
+        imageUrl:
+          "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3946423775,168689942&fm=26&gp=0.jpg",
+        status: 2,
+        desc: "<h1>测试333</h1>",
+        createTime: "2020-08-10 10:10:10",
+      },
+    ];
 
     // this.queryData()
   },
@@ -275,28 +304,30 @@ export default {
         pageIndex: this.listQuery.pageNo,
         pageSize: this.listQuery.pageSize,
         projectName: this.listQuery.name,
-      }).then(res => {
-        setTimeout(() => {
-          this.listLoading = false;
-        }, 300);
-        if (res.code == '0000') {
-          // 设置列表和总条数
-          this.list = res.data;
-          this.listTotal = res.total;
-        } else {
-          this.$message({
-            type: 'error',
-            message: res.message,
-          })
-        }
-      }).catch(err => {
-        this.listLoading = false;
       })
+        .then((res) => {
+          setTimeout(() => {
+            this.listLoading = false;
+          }, 300);
+          if (res.code == "0000") {
+            // 设置列表和总条数
+            this.list = res.data;
+            this.listTotal = res.total;
+          } else {
+            this.$message({
+              type: "error",
+              message: res.message,
+            });
+          }
+        })
+        .catch((err) => {
+          this.listLoading = false;
+        });
     },
     // 重置列表
     resetQueryData() {
-      this.listQuery.name = '';
-      this.listQuery.status = '';
+      this.listQuery.name = "";
+      this.listQuery.status = "";
       this.listQuery.pageNo = 1;
       this.listQuery.pageSize = 10;
       this.queryData();
@@ -317,12 +348,12 @@ export default {
     showAddModal() {
       // 编辑和新增用一个对象时候，resetFields方法之前必须先重置一下对象才可以
       this.editForm = {
-        id: '', // 活动id
-        name: '', // 活动名称
-        price: '', // 参与价格
-        imageUrl: '', // 封面图片
-        desc: '', // 活动介绍
-      }
+        id: "", // 活动id
+        name: "", // 活动名称
+        price: "", // 参与价格
+        imageUrl: "", // 封面图片
+        desc: "", // 活动介绍
+      };
       // 重置表单
       if (this.$refs.editFormRef) {
         this.$refs.editFormRef.resetFields();
@@ -341,28 +372,34 @@ export default {
         price: row.price,
         imageUrl: [],
         desc: row.desc,
-      }
+      };
       // element的图片上传设置默认图片必须是数组
       this.editForm.imageUrl.push({
         uid: util.getGUID(),
         url: row.imageUrl,
-      })
+      });
       // 富文本要手动调用setContent方法才有效果
       if (this.$refs.descRef) {
-        this.$refs.descRef.setContent(this.editForm.desc)
+        this.$refs.descRef.setContent(this.editForm.desc);
       }
       this.editModal = true;
     },
 
     // 上传图片钱验证图片类型和大小
     beforeUploadImage(file) {
-      const IMAGE_TYPE = ['image/png', 'image/jpg', 'image/jpeg', 'image/bmp', 'image/gif']
+      const IMAGE_TYPE = [
+        "image/png",
+        "image/jpg",
+        "image/jpeg",
+        "image/bmp",
+        "image/gif",
+      ];
       const MAX_SIZE = file.size / 1024 / 1024 < 2;
       // 验证文件类型
       if (!IMAGE_TYPE.includes(file.type)) {
         this.$message({
           message: "请上传(.png,.jpg,.jpeg,.bmp,.gif)格式的图片",
-          type: "error"
+          type: "error",
         });
         return false;
       }
@@ -370,7 +407,7 @@ export default {
       if (!MAX_SIZE) {
         this.$message({
           message: "上传图片大小不能超过2M",
-          type: "error"
+          type: "error",
         });
         return false;
       }
@@ -379,19 +416,19 @@ export default {
     // 上传图片到后台
     uploadProjectImage(data) {
       let formData = new FormData();
-      formData.append('file', data.file);
-      formData.append('path', 'img');
-      uploadFile(formData).then(res => {
-        console.log(res)
+      formData.append("file", data.file);
+      formData.append("path", "img");
+      uploadFile(formData).then((res) => {
+        console.log(res);
         if (res.code == "0000") {
           this.editForm.imageUrl = res.data;
         } else {
           this.$message({
             message: "上传图片失败",
-            type: "error"
+            type: "error",
           });
         }
-      })
+      });
     },
     // 预览上传的图片
     previewImage(file) {
@@ -400,14 +437,14 @@ export default {
     },
     // 删除封面图片
     removeImage(data) {
-      this.editForm.imageUrl = '';
+      this.editForm.imageUrl = "";
     },
 
     /**
      * 提交表单
      */
     handleSubmit() {
-      this.$refs.editFormRef.validate(valid => {
+      this.$refs.editFormRef.validate((valid) => {
         if (valid) {
           // id不为空，则是修改
           if (this.editForm.id) {
@@ -416,10 +453,10 @@ export default {
             this.handleAdd();
           }
         } else {
-          console.log('submit fail')
-          return false
+          console.log("submit fail");
+          return false;
         }
-      })
+      });
     },
     // 添加
     handleAdd() {
@@ -428,22 +465,22 @@ export default {
         price: this.editForm.price,
         imageUrl: this.editForm.imageUrl,
         desc: this.editForm.desc,
-      }).then(res => {
+      }).then((res) => {
         if (res.code == "0000") {
           this.$message({
             message: "添加成功",
-            type: 'success'
-          })
+            type: "success",
+          });
           // 查询列表
           this.queryData();
           this.editModal = false;
         } else {
           this.$message({
             message: "添加失败",
-            type: 'error'
-          })
+            type: "error",
+          });
         }
-      })
+      });
     },
     // 修改
     handleUpdate() {
@@ -453,53 +490,53 @@ export default {
         price: this.editForm.price,
         imageUrl: this.editForm.imageUrl,
         desc: this.editForm.desc,
-      }).then(res => {
+      }).then((res) => {
         if (res.code == "0000") {
           this.$message({
             message: "修改成功",
-            type: 'success'
-          })
+            type: "success",
+          });
           // 查询列表
           this.queryData();
           this.editModal = false;
         } else {
           this.$message({
             message: "修改失败",
-            type: 'error'
-          })
+            type: "error",
+          });
         }
-      })
+      });
     },
 
     /**
      * 根据id删除活动
      */
     handleDelete(row) {
-      this.$confirm('确定删除该条记录吗？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
+      this.$confirm("确定删除该条记录吗？", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
       }).then(() => {
         deleteTable({
-          id: row.id
-        }).then(res => {
+          id: row.id,
+        }).then((res) => {
           if (res.code == "0000") {
             this.$message({
               message: "删除成功",
-              type: 'success'
-            })
+              type: "success",
+            });
             this.queryData();
           } else {
             this.$message({
               message: "删除失败",
-              type: 'error'
-            })
+              type: "error",
+            });
           }
-        })
-      })
+        });
+      });
     },
-  }
-}
+  },
+};
 </script>
 
 <style lang="scss" scoped>
