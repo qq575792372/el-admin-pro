@@ -1,5 +1,5 @@
 {
-  "name": "vue-admin-template",
+  "name": "vue_admin_template",
   "version": "4.4.0",
   "description": "A vue admin template with Element UI & axios & iconfont & permission control & lint",
   "author": "Pan <panfree23@gmail.com>",
@@ -16,10 +16,10 @@
     "test:ci": "npm run lint && npm run test:unit"
   },
   "dependencies": {
-    "axios": "0.21.1",
+    "axios": "^0.21.1",
     "core-js": "3.10.1",
     "echarts": "5.1.1",
-    "element-ui": "2.15.2",
+    "element-ui": "^2.15.2",
     "js-cookie": "2.2.1",
     "normalize.css": "8.0.1",
     "nprogress": "0.2.0",
