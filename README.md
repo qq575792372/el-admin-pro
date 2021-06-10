@@ -17,12 +17,11 @@ npm install --registry=https://registry.npm.taobao.org
 # 启动服务
 npm run dev
 
-# 或者npm start命令启动
+# 或者npm start命令启动服务
 npm start
 ```
 
 服务启动成功后，浏览器访问 [http://localhost:9528](http://localhost:9528)
-
 
 ## 环境
 
@@ -34,8 +33,7 @@ npm start
 在使用npm run dev 和 build dev/stage/prod 会根据.env.XXX.js里的配置来连接不同环境的接口地址
 ```
 
-具体环境配置可以参考vue-cli官网的 [环境变量和模式](https://cli.vuejs.org/zh/guide/mode-and-env.html)
-
+具体环境配置可以参考 vue-cli 官网的 [环境变量和模式](https://cli.vuejs.org/zh/guide/mode-and-env.html)
 
 ## 发布
 
@@ -49,7 +47,6 @@ npm run build:stage
 # 构建生产环境
 npm run build:prod
 ```
-
 
 ## 其它
 
@@ -67,4 +64,4 @@ npm run lint
 npm run lint -- --fix
 ```
 
-本模板基于vue-element-admin，更多使用信息参考 [使用文档](https://panjiachen.gitee.io/vue-element-admin-site/zh/)
+本模板基于 vue-element-admin，更多使用信息参考 [使用文档](https://panjiachen.gitee.io/vue-element-admin-site/zh/)
