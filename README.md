@@ -2,10 +2,10 @@
 
 ```bash
 # 克隆项目
-git clone http://119.23.220.221:10080/frontend/vue_admin_template.git
+git clone https://gitee.com/qq1020431880/vue-element-admin.git
 
 # 进入项目目录
-cd vue_admin_template
+cd vue-element-admin
 
 # 安装依赖
 npm install

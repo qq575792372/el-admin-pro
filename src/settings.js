@@ -1,6 +1,5 @@
 module.exports = {
-
-  title: '后台管理',
+  title: "Vue Element 后台管理",
 
   /**
    * @type {boolean} true | false
@@ -12,5 +11,5 @@ module.exports = {
    * @type {boolean} true | false
    * @description Whether show the logo in sidebar
    */
-  sidebarLogo: true
-}
+  sidebarLogo: true,
+};

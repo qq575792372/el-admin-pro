@@ -6,7 +6,7 @@ function resolve(dir) {
   return path.join(__dirname, dir);
 }
 
-const name = defaultSettings.title || "vue Admin Template"; // page title
+const name = defaultSettings.title || "vue Element Admin Template"; // page title
 
 // If your port is set to 80,
 // use administrator privileges to execute the command line.
@@ -25,7 +25,7 @@ module.exports = {
    * Detail: https://cli.vuejs.org/config/#publicpath
    */
 
-  // publicPath: '/vue_admin_template', // 如果需要配置访问前缀，需要加上名称
+  // publicPath: '/vue-element-admin', // 如果需要配置访问前缀，需要加上名称
   publicPath: "/",
   outputDir: "dist",
   assetsDir: "static",
@@ -50,9 +50,10 @@ module.exports = {
     */
     overlay: {
       warnings: false,
-      errors: true
+      errors: true,
     },
-    before: require("./mock/mock-server.js")
+    // 引入mock服务
+    before: require("./mock/mock-server.js"),
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that
@@ -60,11 +61,11 @@ module.exports = {
     name: name,
     resolve: {
       alias: {
-        "@": resolve("src")
-      }
-    }
+        "@": resolve("src"),
+      },
+    },
   },
-  chainWebpack: config => {
+  chainWebpack: (config) => {
     // it can improve the speed of the first screen, it is recommended to turn on preload
     config.plugin("preload").tap(() => [
       {
@@ -72,18 +73,15 @@ module.exports = {
         // to ignore runtime.js
         // https://github.com/vuejs/vue-cli/blob/dev/packages/@vue/cli-service/lib/config/app.js#L171
         fileBlacklist: [/\.map$/, /hot-update\.js$/, /runtime\..*\.js$/],
-        include: "initial"
-      }
+        include: "initial",
+      },
     ]);
 
     // when there are many pages, it will cause too many meaningless requests
     config.plugins.delete("prefetch");
 
     // set svg-sprite-loader
-    config.module
-      .rule("svg")
-      .exclude.add(resolve("src/icons"))
-      .end();
+    config.module.rule("svg").exclude.add(resolve("src/icons")).end();
     config.module
       .rule("icons")
       .test(/\.svg$/)
@@ -92,39 +90,27 @@ module.exports = {
       .use("svg-sprite-loader")
       .loader("svg-sprite-loader")
       .options({
-        symbolId: "icon-[name]"
-      })
-      .end();
-
-    // 这里要设置 whitespace="preserve"，不然编译后会把 &nbsp; 符号去掉
-    config.module
-      .rule("vue")
-      .use("vue-loader")
-      .loader("vue-loader")
-      .tap(options => {
-        options.compilerOptions.whitespace = "preserve";
-        options.compilerOptions.preserveWhitespace = true;
-        return options;
+        symbolId: "icon-[name]",
       })
       .end();
 
     // is development
     config
       // https://webpack.js.org/configuration/devtool/#development
-      .when(process.env.NODE_ENV === "development", config =>
+      .when(process.env.NODE_ENV === "development", (config) =>
         config.devtool("cheap-source-map")
       );
 
     // not development
-    config.when(process.env.NODE_ENV !== "development", config => {
+    config.when(process.env.NODE_ENV !== "development", (config) => {
       config
         .plugin("ScriptExtHtmlWebpackPlugin")
         .after("html")
         .use("script-ext-html-webpack-plugin", [
           {
             // `runtime` must same as runtimeChunk name. default is `runtime`
-            inline: /runtime\..*\.js$/
-          }
+            inline: /runtime\..*\.js$/,
+          },
         ])
         .end();
 
@@ -136,27 +122,27 @@ module.exports = {
             name: "chunk-libs",
             test: /[\\/]node_modules[\\/]/,
             priority: 10,
-            chunks: "initial" // only package third parties that are initially dependent
+            chunks: "initial", // only package third parties that are initially dependent
           },
           elementUI: {
             name: "chunk-elementUI", // split elementUI into a single package
             priority: 20, // the weight needs to be larger than libs and app or it will be packaged into libs or app
-            test: /[\\/]node_modules[\\/]_?element-ui(.*)/ // in order to adapt to cnpm
+            test: /[\\/]node_modules[\\/]_?element-ui(.*)/, // in order to adapt to cnpm
           },
           elementUI: {
             name: "chunk-antDesign", // split elementUI into a single package
             priority: 20, // the weight needs to be larger than libs and app or it will be packaged into libs or app
-            test: /[\\/]node_modules[\\/]_?ant-design(.*)/ // in order to adapt to cnpm
+            test: /[\\/]node_modules[\\/]_?ant-design(.*)/, // in order to adapt to cnpm
           },
           echarts: {
             name: "chunk-echarts",
             test: /[\\/]node_modules[\\/](vue-)?echarts[\\/]/,
-            priority: 4
+            priority: 4,
           },
           styles: {
             name: "styles", // split styles
             test: /\.(le|sa|sc|c)ss$/,
-            priority: 4
+            priority: 4,
           },
           commons: {
             name: "chunk-commons",
@@ -164,12 +150,12 @@ module.exports = {
             minChunks: 3, //  minimum common number
             priority: 5,
             enforce: true,
-            reuseExistingChunk: true
-          }
-        }
+            reuseExistingChunk: true,
+          },
+        },
       });
       // https:// webpack.js.org/configuration/optimization/#optimizationruntimechunk
       config.optimization.runtimeChunk("single");
     });
-  }
+  },
 };
