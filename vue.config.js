@@ -125,8 +125,8 @@ module.exports = {
             priority: 20, // the weight needs to be larger than libs and app or it will be packaged into libs or app
             test: /[\\/]node_modules[\\/]_?element-ui(.*)/ // in order to adapt to cnpm
           },
-          elementUI: {
-            name: "chunk-antDesign", // split elementUI into a single package
+          antDesignUI: {
+            name: "chunk-antDesign", // split antDesignUI into a single package
             priority: 20, // the weight needs to be larger than libs and app or it will be packaged into libs or app
             test: /[\\/]node_modules[\\/]_?ant-design(.*)/ // in order to adapt to cnpm
           },
