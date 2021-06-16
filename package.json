@@ -37,6 +37,7 @@
     "chalk": "4.1.0",
     "connect": "3.7.0",
     "eslint": "7.28.0",
+    
     "eslint-plugin-vue": "7.10.0",
     "html-webpack-plugin": "4.5.2",
     "mockjs": "1.1.0",
