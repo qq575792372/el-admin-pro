@@ -126,9 +126,14 @@ module.exports = {
             test: /[\\/]node_modules[\\/]_?element-ui(.*)/ // in order to adapt to cnpm
           },
           antDesignUI: {
-            name: "chunk-antDesign", // split antDesignUI into a single package
+            name: "chunk-antDesign", // split elementUI into a single package
             priority: 20, // the weight needs to be larger than libs and app or it will be packaged into libs or app
             test: /[\\/]node_modules[\\/]_?ant-design(.*)/ // in order to adapt to cnpm
+          },
+          vantUI: {
+            name: "chunk-vantUI", // split vantUI into a single package
+            priority: 20, // the weight needs to be larger than libs and app or it will be packaged into libs or app
+            test: /[\\/]node_modules[\\/]_?vant(.*)/ // in order to adapt to cnpm
           },
           echarts: {
             name: "chunk-echarts",
