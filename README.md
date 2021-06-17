@@ -23,6 +23,7 @@ npm start
 
 服务启动成功后，浏览器访问 [http://localhost:9528](http://localhost:9528)
 
+
 ## 环境
 
 ```bash
@@ -35,10 +36,11 @@ npm start
 
 环境配置可以参考 Vue CLI 官网的 [模式和环境变量](https://cli.vuejs.org/zh/guide/mode-and-env.html)，新版本的环境是独立的 **.env[model]** 文件形式来配置
 
-## 打包
+
+## 发布
 
 ```bash
-# 构建本地环境
+# 构建开发环境
 npm run build:dev
 
 # 构建测试环境
@@ -47,6 +49,7 @@ npm run build:stage
 # 构建生产环境
 npm run build:prod
 ```
+
 
 ## 其它
 
@@ -64,4 +67,4 @@ npm run lint
 npm run lint -- --fix
 ```
 
->本模板基于[vue-element-admin](https://github.com/PanJiaChen/vue-element-admin) 改造，更多使用信息参考 [使用文档](https://panjiachen.gitee.io/vue-element-admin-site/zh/guide/)
+> 本模板基于[vue-element-admin](https://github.com/PanJiaChen/vue-element-admin) 改造，更多使用信息参考 [使用文档](https://panjiachen.gitee.io/vue-element-admin-site/zh/guide/)
