@@ -27,15 +27,15 @@ npm start
 
 ```bash
 # 修改接口连接地址
-在 .env.[development/staging/production].js 中修改 VUE_APP_BASE_API='http://接口地址'
+在 .env.[development/staging/production] 中修改 VUE_APP_BASE_API='http://接口地址'
 
 # 运行环境
 在使用npm run dev 和 build dev/stage/prod 会根据.env.XXX.js里的配置来连接不同环境的接口地址
 ```
 
-具体环境配置可以参考 vue-cli 官网的 [环境变量和模式](https://cli.vuejs.org/zh/guide/mode-and-env.html)
+环境配置可以参考 Vue CLI 官网的 [模式和环境变量](https://cli.vuejs.org/zh/guide/mode-and-env.html)，新版本的环境是独立的 **.env[model]** 文件形式来配置
 
-## 发布
+## 打包
 
 ```bash
 # 构建本地环境
@@ -64,4 +64,4 @@ npm run lint
 npm run lint -- --fix
 ```
 
-本模板基于 vue-element-admin，更多使用信息参考 [使用文档](https://panjiachen.gitee.io/vue-element-admin-site/zh/)
+>本模板基于[vue-element-admin](https://github.com/PanJiaChen/vue-element-admin) 改造，更多使用信息参考 [使用文档](https://panjiachen.gitee.io/vue-element-admin-site/zh/guide/)
