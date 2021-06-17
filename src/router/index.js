@@ -1,6 +1,14 @@
 import Vue from "vue";
 import Router from "vue-router";
 
+// 防止点击同一个路由时候报错
+//获取原型对象上的push函数
+const originalPush = Router.prototype.push;
+//修改原型对象中的push方法
+Router.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err);
+};
+
 Vue.use(Router);
 
 /* Layout */
@@ -31,6 +39,19 @@ import Layout from "@/layout";
  * all roles can be accessed
  */
 export const constantRoutes = [
+  // tags-view刷新页面中间件
+  {
+    path: "/redirect",
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: "/redirect/:path(.*)",
+        component: resolve => require(["@/views/redirect"], resolve)
+      }
+    ]
+  },
+
   {
     path: "/login",
     component: () => import("@/views/login/index"),
@@ -53,12 +74,13 @@ export const constantRoutes = [
   {
     path: "/",
     component: Layout,
-    redirect: "/home",
+    redirect: "/index",
     children: [
       {
-        path: "home",
-        component: () => import("@/views/home/index"),
-        meta: { title: "首页", icon: "el-icon-s-home" }
+        path: "index",
+        name: "index",
+        component: () => import("@/views/index"),
+        meta: { title: "首页", affix: true, icon: "el-icon-s-home" }
       }
     ]
   },
@@ -70,22 +92,157 @@ export const constantRoutes = [
   //   redirect: '/table/index',
   // },
 
-  // 示例页面
+  // 系统管理
   {
-    path: "/table",
+    path: "/system",
     component: Layout,
-    redirect: "/table/index",
+    redirect: "/system/userManage",
     meta: {
-      title: "表格",
-      icon: "el-icon-s-grid"
+      title: "系统管理",
+      icon: "el-icon-s-tools"
     },
     alwaysShow: true,
     children: [
       {
-        path: "index",
+        path: "userManage",
+        name: "userManage",
         component: () => import("@/views/table/index"),
         meta: {
-          title: "示例"
+          title: "用户管理",
+          icon: "el-icon-user-solid"
+        }
+      },
+      {
+        path: "roleManage",
+        name: "roleManage",
+        component: () => import("@/views/table/index"),
+        meta: {
+          title: "角色管理"
+        }
+      },
+      {
+        path: "menuManage",
+        name: "menuManage",
+        component: () => import("@/views/table/index"),
+        meta: {
+          title: "菜单管理"
+        }
+      },
+      {
+        path: "departManage",
+        name: "departManage",
+        component: () => import("@/views/table/index"),
+        meta: {
+          title: "部门管理"
+        }
+      },
+      {
+        path: "dictManage",
+        name: "dictManage",
+        component: () => import("@/views/table/index"),
+        meta: {
+          title: "字典管理"
+        }
+      },
+      {
+        path: "dataManage",
+        name: "dataManage",
+        component: () => import("@/views/table/index"),
+        meta: {
+          title: "数据管理"
+        }
+      }
+    ]
+  },
+
+  // 平台管理
+  {
+    path: "/platform",
+    component: Layout,
+    redirect: "/platform/onlineUser",
+    meta: {
+      title: "平台管理",
+      icon: "el-icon-s-platform"
+    },
+    alwaysShow: true,
+    children: [
+      {
+        path: "onlineUser",
+        name: "onlineUser",
+        component: () => import("@/views/table/index"),
+        meta: {
+          title: "在线用户"
+        }
+      },
+      {
+        path: "operateLog",
+        name: "operateLog",
+        component: () => import("@/views/table/index"),
+        meta: {
+          title: "操作日志"
+        }
+      },
+      {
+        path: "errorLog",
+        name: "errorLog",
+        component: () => import("@/views/table/index"),
+        meta: {
+          title: "异常日志"
+        }
+      },
+      {
+        path: "serveListen",
+        name: "serveListen",
+        component: () => import("@/views/table/index"),
+        meta: {
+          title: "服务监听"
+        }
+      }
+    ]
+  },
+
+  // 多级菜单
+  {
+    path: "/tree",
+    component: Layout,
+    redirect: "/tree/one",
+    meta: {
+      title: "多级菜单",
+      icon: "tree"
+    },
+    children: [
+      {
+        path: "one",
+        component: () => import("@/views/table/index"),
+        meta: {
+          title: "二级菜单1"
+        },
+
+        children: [
+          {
+            path: "one-1",
+            name: "one-1",
+            component: () => import("@/views/table/index"),
+            meta: {
+              title: "二级菜单1-1"
+            }
+          },
+          {
+            path: "one-2",
+            name: "one-2",
+            component: () => import("@/views/table/index"),
+            meta: {
+              title: "二级菜单1-2"
+            }
+          }
+        ]
+      },
+      {
+        path: "two",
+        name: "two",
+        component: () => import("@/views/table/index"),
+        meta: {
+          title: "二级菜单2"
         }
       }
     ]
@@ -98,7 +255,7 @@ export const constantRoutes = [
     children: [
       {
         path: "https://www.baidu.com",
-        meta: { title: "跳转外部链接", icon: "link" }
+        meta: { title: "跳转到百度", icon: "link" }
       }
     ]
   },
@@ -109,8 +266,8 @@ export const constantRoutes = [
 
 const createRouter = () =>
   new Router({
-    // mode: 'history', // 使用history模式，需要设置base路径
-    // base: process.env.BASE_URL,
+    mode: "history", // 使用history模式，需要设置base路径
+    base: process.env.BASE_URL,
     scrollBehavior: () => ({ y: 0 }),
     routes: constantRoutes
   });

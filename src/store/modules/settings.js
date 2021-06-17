@@ -1,16 +1,19 @@
+import variables from '@/styles/element-variables.scss'
 import defaultSettings from '@/settings'
 
-const { showSettings, fixedHeader, sidebarLogo } = defaultSettings
-
+const { sideTheme, showSettings, topNav, tagsView, fixedHeader, sidebarLogo } = defaultSettings
+const storageSetting = JSON.parse(localStorage.getItem('layout-setting')) || ''
 const state = {
+  theme: storageSetting.theme || variables.theme,
+  sideTheme: storageSetting.sideTheme || sideTheme,
   showSettings: showSettings,
-  fixedHeader: fixedHeader,
-  sidebarLogo: sidebarLogo
+  topNav:  storageSetting.topNav === undefined ? topNav : storageSetting.topNav,
+  tagsView: storageSetting.tagsView === undefined ? tagsView : storageSetting.tagsView,
+  fixedHeader: storageSetting.fixedHeader === undefined ? fixedHeader : storageSetting.fixedHeader,
+  sidebarLogo: storageSetting.sidebarLogo === undefined ? sidebarLogo : storageSetting.sidebarLogo
 }
-
 const mutations = {
   CHANGE_SETTING: (state, { key, value }) => {
-    // eslint-disable-next-line no-prototype-builtins
     if (state.hasOwnProperty(key)) {
       state[key] = value
     }

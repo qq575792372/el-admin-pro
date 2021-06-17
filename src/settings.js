@@ -2,14 +2,32 @@ module.exports = {
   title: "Vue Element 后台管理",
 
   /**
-   * @type {boolean} true | false
-   * @description Whether fix the header
+   * 侧边栏主题色，深色主题theme-dark，浅色主题theme-light，默认深色theme-dark
    */
-  fixedHeader: false,
+  sideTheme: "theme-dark",
 
   /**
-   * @type {boolean} true | false
-   * @description Whether show the logo in sidebar
+   *是否固定头部
    */
-  sidebarLogo: true,
+  fixedHeader: true,
+
+  /**
+   * 是否展示右侧布局配置panel页面，在头部右侧个人信息布局设置控制
+   */
+  showSettings: false,
+
+  /**
+   * 是否显示顶部导航
+   */
+  topNav: false,
+
+  /**
+   * 是否显示 tagsView
+   */
+  tagsView: true,
+
+  /**
+   * 是否显示左侧菜单logo
+   */
+  sidebarLogo: true
 };

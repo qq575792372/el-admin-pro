@@ -9,24 +9,35 @@
           v-model="listQuery.name"
           placeholder="活动名称"
           clearable
-          style="width: 180px"
+          size="small"
+          style="width:160px"
         ></el-input>
         <el-select
           v-model="listQuery.status"
           placeholder="活动状态"
           clearable
-          style="width: 180px"
+          size="small"
+          style="width:120px"
         >
           <el-option value="0" label="待开始"></el-option>
           <el-option value="1" label="进行中"></el-option>
           <el-option value="2" label="已结束"></el-option> </el-select
         >&nbsp;&nbsp;
-        <el-button type="primary" @click="queryData">查询</el-button>
-        <el-button type="default" @click="resetQueryData">重置</el-button>
+        <el-button type="primary" size="small" @click="queryData"
+          >查询</el-button
+        >
+        <el-button type="default" size="small" @click="resetQueryData"
+          >重置</el-button
+        >
       </div>
       <!-- 按钮操作 -->
       <div class="operate-box">
-        <el-button icon="el-icon-plus" type="primary" @click="showAddModal">
+        <el-button
+          icon="el-icon-plus"
+          size="small"
+          type="primary"
+          @click="showAddModal"
+        >
           添加活动
         </el-button>
       </div>
@@ -37,7 +48,7 @@
       <el-table
         v-loading="listLoading"
         :data="list"
-        border
+        size="small"
         highlight-current-row
       >
         <el-table-column align="center" label="序号" width="70">
@@ -73,6 +84,7 @@
           <template slot-scope="scope">
             <el-link
               type="primary"
+              size="small"
               :underline="false"
               @click="showEditModal(scope.row)"
             >
@@ -80,6 +92,7 @@
             </el-link>
             <el-link
               type="danger"
+              size="small"
               :underline="false"
               @click="handleDelete(scope.row)"
             >
@@ -94,7 +107,6 @@
     <div class="pagination-container">
       <el-pagination
         background
-        hide-on-single-page
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page.sync="listQuery.pageNo"
@@ -110,7 +122,7 @@
     <el-dialog
       :title="editForm.id ? '编辑活动' : '添加活动'"
       :visible.sync="editModal"
-      width="1200px"
+      width="960px"
     >
       <div>
         <el-form
@@ -119,6 +131,7 @@
           ref="editFormRef"
           label-suffix="："
           label-width="100px"
+          size="small"
         >
           <el-form-item label="活动名称" prop="name">
             <el-input
@@ -169,8 +182,10 @@
         </el-form>
       </div>
       <div slot="footer" style="text-align: center">
-        <el-button @click="editModal = false">取消</el-button>
-        <el-button type="primary" @click="handleSubmit">确定</el-button>
+        <el-button @click="editModal = false" size="small">取消</el-button>
+        <el-button type="primary" @click="handleSubmit" size="small"
+          >确定</el-button
+        >
       </div>
     </el-dialog>
 
@@ -194,7 +209,7 @@ import {
   addTable,
   updateTable,
   deleteTable,
-  uploadFile,
+  uploadFile
 } from "@/api/table.js";
 
 export default {
@@ -210,7 +225,7 @@ export default {
         name: "",
         status: "",
         pageNo: 1,
-        pageSize: 10,
+        pageSize: 10
       },
 
       // 新增和编辑信息
@@ -220,42 +235,42 @@ export default {
         name: "", // 活动名称
         price: "", // 参与价格
         imageUrl: "", // 封面图片
-        desc: "", // 活动介绍
+        desc: "" // 活动介绍
       },
       editFormRules: {
         name: [
           {
             required: true,
             message: "请输入活动名称",
-            trigger: "blur",
-          },
+            trigger: "blur"
+          }
         ],
         price: [
           {
             required: true,
             message: "请输入活动价格",
-            trigger: "blur",
-          },
+            trigger: "blur"
+          }
         ],
         imageUrl: [
           {
             required: true,
             message: "请上传封面图片",
-            trigger: "change",
-          },
+            trigger: "change"
+          }
         ],
         desc: [
           {
             required: true,
             message: "请输入活动介绍",
-            trigger: "blur",
-          },
-        ],
+            trigger: "blur"
+          }
+        ]
       },
 
       // 图片预览
       previewImageUrl: "",
-      previewImageModal: false,
+      previewImageModal: false
     };
   },
   created() {
@@ -268,7 +283,7 @@ export default {
           "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3946423775,168689942&fm=26&gp=0.jpg",
         status: 0,
         desc: "<h1>测试1111</h1>",
-        createTime: "2020-08-10 10:10:10",
+        createTime: "2020-08-10 10:10:10"
       },
       {
         id: 2,
@@ -278,7 +293,7 @@ export default {
           "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3946423775,168689942&fm=26&gp=0.jpg",
         status: 1,
         desc: "<h1>测试2222</h1>",
-        createTime: "2020-08-10 10:10:10",
+        createTime: "2020-08-10 10:10:10"
       },
       {
         id: 3,
@@ -288,11 +303,11 @@ export default {
           "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3946423775,168689942&fm=26&gp=0.jpg",
         status: 2,
         desc: "<h1>测试333</h1>",
-        createTime: "2020-08-10 10:10:10",
-      },
+        createTime: "2020-08-10 10:10:10"
+      }
     ];
 
-    // this.queryData()
+    // this.queryData();
   },
   methods: {
     /**
@@ -303,9 +318,9 @@ export default {
       getList({
         pageIndex: this.listQuery.pageNo,
         pageSize: this.listQuery.pageSize,
-        projectName: this.listQuery.name,
+        projectName: this.listQuery.name
       })
-        .then((res) => {
+        .then(res => {
           setTimeout(() => {
             this.listLoading = false;
           }, 300);
@@ -316,11 +331,11 @@ export default {
           } else {
             this.$message({
               type: "error",
-              message: res.message,
+              message: res.message
             });
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.listLoading = false;
         });
     },
@@ -352,7 +367,7 @@ export default {
         name: "", // 活动名称
         price: "", // 参与价格
         imageUrl: "", // 封面图片
-        desc: "", // 活动介绍
+        desc: "" // 活动介绍
       };
       // 重置表单
       if (this.$refs.editFormRef) {
@@ -371,12 +386,12 @@ export default {
         name: row.name,
         price: row.price,
         imageUrl: [],
-        desc: row.desc,
+        desc: row.desc
       };
       // element的图片上传设置默认图片必须是数组
       this.editForm.imageUrl.push({
         uid: util.getGUID(),
-        url: row.imageUrl,
+        url: row.imageUrl
       });
       // 富文本要手动调用setContent方法才有效果
       if (this.$refs.descRef) {
@@ -392,14 +407,14 @@ export default {
         "image/jpg",
         "image/jpeg",
         "image/bmp",
-        "image/gif",
+        "image/gif"
       ];
       const MAX_SIZE = file.size / 1024 / 1024 < 2;
       // 验证文件类型
       if (!IMAGE_TYPE.includes(file.type)) {
         this.$message({
           message: "请上传(.png,.jpg,.jpeg,.bmp,.gif)格式的图片",
-          type: "error",
+          type: "error"
         });
         return false;
       }
@@ -407,7 +422,7 @@ export default {
       if (!MAX_SIZE) {
         this.$message({
           message: "上传图片大小不能超过2M",
-          type: "error",
+          type: "error"
         });
         return false;
       }
@@ -418,14 +433,14 @@ export default {
       let formData = new FormData();
       formData.append("file", data.file);
       formData.append("path", "img");
-      uploadFile(formData).then((res) => {
+      uploadFile(formData).then(res => {
         console.log(res);
         if (res.code == "0000") {
           this.editForm.imageUrl = res.data;
         } else {
           this.$message({
             message: "上传图片失败",
-            type: "error",
+            type: "error"
           });
         }
       });
@@ -444,7 +459,7 @@ export default {
      * 提交表单
      */
     handleSubmit() {
-      this.$refs.editFormRef.validate((valid) => {
+      this.$refs.editFormRef.validate(valid => {
         if (valid) {
           // id不为空，则是修改
           if (this.editForm.id) {
@@ -464,12 +479,12 @@ export default {
         name: this.editForm.name,
         price: this.editForm.price,
         imageUrl: this.editForm.imageUrl,
-        desc: this.editForm.desc,
-      }).then((res) => {
+        desc: this.editForm.desc
+      }).then(res => {
         if (res.code == "0000") {
           this.$message({
             message: "添加成功",
-            type: "success",
+            type: "success"
           });
           // 查询列表
           this.queryData();
@@ -477,7 +492,7 @@ export default {
         } else {
           this.$message({
             message: "添加失败",
-            type: "error",
+            type: "error"
           });
         }
       });
@@ -489,12 +504,12 @@ export default {
         name: this.editForm.name,
         price: this.editForm.price,
         imageUrl: this.editForm.imageUrl,
-        desc: this.editForm.desc,
-      }).then((res) => {
+        desc: this.editForm.desc
+      }).then(res => {
         if (res.code == "0000") {
           this.$message({
             message: "修改成功",
-            type: "success",
+            type: "success"
           });
           // 查询列表
           this.queryData();
@@ -502,7 +517,7 @@ export default {
         } else {
           this.$message({
             message: "修改失败",
-            type: "error",
+            type: "error"
           });
         }
       });
@@ -515,27 +530,27 @@ export default {
       this.$confirm("确定删除该条记录吗？", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning",
+        type: "warning"
       }).then(() => {
         deleteTable({
-          id: row.id,
-        }).then((res) => {
+          id: row.id
+        }).then(res => {
           if (res.code == "0000") {
             this.$message({
               message: "删除成功",
-              type: "success",
+              type: "success"
             });
             this.queryData();
           } else {
             this.$message({
               message: "删除失败",
-              type: "error",
+              type: "error"
             });
           }
         });
       });
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -546,6 +561,7 @@ export default {
     .el-input,
     .el-select {
       margin-bottom: 5px;
+      margin-right: 6px;
     }
   }
   .operate-box {
