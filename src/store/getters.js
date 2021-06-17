@@ -11,6 +11,8 @@ const getters = {
   cachedViews: state => state.tagsView.cachedViews,
   // permission
   permissionRoutes: state => state.permission.routes,
-  addRoutes: state => state.permission.addRoutes
+  addRoutes: state => state.permission.addRoutes,
+  // settings
+  dynamicTitle: state => state.settings.dynamicTitle
 };
 export default getters;

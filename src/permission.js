@@ -14,8 +14,8 @@ router.beforeEach(async (to, from, next) => {
   // start progress bar
   NProgress.start();
 
-  // set page title
-  document.title = getPageTitle(to.meta.title);
+  //设置页面标题（如果开启了动态标题则会拼加路由的title）
+  document.title = getPageTitle(store.getters.dynamicTitle && to.meta.title);
 
   // 获取登录的token
   const hasToken = getToken();
@@ -32,7 +32,6 @@ router.beforeEach(async (to, from, next) => {
       } else {
         // 权限路由
         const accessRoutes = await store.dispatch("permission/generateRoutes");
-        console.log(3333, accessRoutes);
         router.addRoutes(accessRoutes);
         // next page
         next({ ...to, replace: true });

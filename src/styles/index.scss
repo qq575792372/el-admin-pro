@@ -1,16 +1,17 @@
-@import './variables.scss';
-@import './mixin.scss';
-@import './transition.scss';
-@import './element-ui.scss';
-@import './sidebar.scss';
-@import './util.scss';
+@import "./variables.scss";
+@import "./mixin.scss";
+@import "./transition.scss";
+@import "./element-ui.scss";
+@import "./sidebar.scss";
+@import "./util.scss";
 
 body {
   height: 100%;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB,
+    Microsoft YaHei, Arial, sans-serif;
 }
 
 label {
@@ -53,7 +54,6 @@ div:focus {
 .no-padding {
   padding: 0px !important;
 }
-
 
 /* global clear fix */
 .clearfix {
@@ -98,13 +98,18 @@ div:focus {
 
 // app-container global css
 .app-container {
-  padding: 15px;
+  margin: 15px;
+  padding:16px;
+  background: #fff;
+  border-radius: 4px;
 
   /* header */
-  .header-container {}
+  .header-container {
+  }
 
   /* table */
-  .table-container {}
+  .table-container {
+  }
 
   /* pagination */
   .pagination-container {

@@ -29,5 +29,10 @@ module.exports = {
   /**
    * 是否显示左侧菜单logo
    */
-  sidebarLogo: true
+  sidebarLogo: true,
+
+  /**
+   * 是否显示动态标题
+   */
+  dynamicTitle: true
 };

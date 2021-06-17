@@ -105,7 +105,7 @@
 
       <div class="drawer-item">
         <span>动态标题</span>
-        <el-switch v-model="sidebarLogo" class="drawer-switch" />
+        <el-switch v-model="dynamicTitle" class="drawer-switch" />
       </div>
 
       <el-divider />
@@ -180,6 +180,17 @@ export default {
           value: val
         });
       }
+    },
+    dynamicTitle: {
+      get() {
+        return this.$store.state.settings.dynamicTitle;
+      },
+      set(val) {
+        this.$store.dispatch("settings/changeSetting", {
+          key: "dynamicTitle",
+          value: val
+        });
+      }
     }
   },
   methods: {
@@ -215,10 +226,11 @@ export default {
       localStorage.setItem(
         "layout-setting",
         `{
-            "topNav":${this.topNav},
+         "topNav":${this.topNav},
             "tagsView":${this.tagsView},
             "fixedHeader":${this.fixedHeader},
             "sidebarLogo":${this.sidebarLogo},
+            "dynamicTitle":${this.dynamicTitle},
             "sideTheme":"${this.sideTheme}",
             "theme":"${this.theme}"
           }`
