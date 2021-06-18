@@ -183,13 +183,7 @@ export default {
       immediate: true
     }
   },
-  created() {
-    // 初始化验证码图片地址
-    this.validImageUrl =
-      process.env.VUE_APP_BASE_API +
-      "/hltrip_shop/kaptcha/adminKaptcha?t=" +
-      new Date().getTime();
-  },
+  created() {},
   mounted() {
     window.addEventListener("keydown", this.onKeyDown);
   },
@@ -272,6 +266,7 @@ export default {
   bottom: 0;
   z-index: 0;
   overflow: hidden;
+
   // 背景图片，加入高斯模糊
   .login-bg {
     position: absolute;
@@ -303,6 +298,7 @@ export default {
     border-radius: 6px;
     background: #fff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+
     // 登录标题
     .login-title {
       font-size: 18px;
@@ -312,6 +308,7 @@ export default {
       padding: 16px;
       border-bottom: solid 1px #e8eaec;
     }
+
     // 登录表单
     .login-form {
       padding: 25px 20px 0px 20px;
@@ -332,12 +329,14 @@ export default {
         }
       }
     }
+
     // 去注册和忘记密码
     .login-operate {
       display: flex;
       justify-content: space-between;
       padding: 0px 20px;
     }
+
     // 登录小提示
     .login-tips {
       font-size: 12px;
@@ -345,6 +344,7 @@ export default {
       padding: 10px 20px;
     }
   }
+
   // 底部工商备案信息
   .login-footer {
     height: 40px;

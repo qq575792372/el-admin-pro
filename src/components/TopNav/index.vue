@@ -5,10 +5,18 @@
     @select="handleSelect"
   >
     <template v-for="(item, index) in topMenus">
-      <el-menu-item :style="{'--theme': theme}" :index="item.path" :key="index" v-if="index < visibleNumber"
-        ><svg-icon :icon-class="item.meta&&item.meta.icon" />
-        {{ item.meta&&item.meta.title }}</el-menu-item
+      <el-menu-item
+        :style="{ '--theme': theme }"
+        :index="item.path"
+        :key="index"
+        v-if="index < visibleNumber"
       >
+        <item
+          v-if="item.meta"
+          :icon="item.meta && item.meta.icon"
+          :title="item.meta.title"
+        />
+      </el-menu-item>
     </template>
 
     <!-- 顶部菜单超出数量折叠 -->
@@ -19,9 +27,13 @@
           :index="item.path"
           :key="index"
           v-if="index >= visibleNumber"
-          ><svg-icon :icon-class="item.meta&&item.meta.icon" />
-          {{ item.meta&&item.meta.title }}</el-menu-item
         >
+          <item
+            v-if="item.meta"
+            :icon="item.meta && item.meta.icon"
+            :title="item.meta.title"
+          />
+        </el-menu-item>
       </template>
     </el-submenu>
   </el-menu>
@@ -29,8 +41,10 @@
 
 <script>
 import { constantRoutes } from "@/router";
-
+import { mapGetters } from "vuex";
+import Item from "./Item";
 export default {
+  components: { Item },
   data() {
     return {
       // 顶部栏初始数
@@ -42,40 +56,40 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(["routes", "sidebarRoutes"]),
     theme() {
+      console.log(this.$store.state.settings.theme);
       return this.$store.state.settings.theme;
     },
     // 顶部显示菜单
     topMenus() {
       let topMenus = [];
-      this.routers.map((menu) => {
-        if (menu.hidden !== true) {
+      this.routes.map(menu => {
+        if (menu.hidden !== true && menu.path != "/" && menu.path != "/index") {
           // 兼容顶部栏一级菜单内部跳转
           if (menu.path === "/") {
-              topMenus.push(menu.children[0]);
+            // topMenus.push(menu.children[0]);
           } else {
-              topMenus.push(menu);
+            topMenus.push(menu);
           }
         }
       });
       return topMenus;
     },
-    // 所有的路由信息
-    routers() {
-      return this.$store.state.permission.routes;
-    },
     // 设置子路由
     childrenMenus() {
       var childrenMenus = [];
-      this.routers.map((router) => {
+      this.routes.map(router => {
         for (var item in router.children) {
           if (router.children[item].parentPath === undefined) {
-            if(router.path === "/") {
-              router.children[item].path = "/redirect/" + router.children[item].path;
+            if (router.path === "/") {
+              router.children[item].path =
+                "/redirect/" + router.children[item].path;
             } else {
-			  if(!this.ishttp(router.children[item].path)) {
-                router.children[item].path = router.path + "/" + router.children[item].path;
-			  }
+              if (!this.ishttp(router.children[item].path)) {
+                router.children[item].path =
+                  router.path + "/" + router.children[item].path;
+              }
             }
             router.children[item].parentPath = router.path;
           }
@@ -87,7 +101,7 @@ export default {
     // 默认激活的菜单
     activeMenu() {
       const path = this.$route.path;
-      let activePath = this.routers[0].path;
+      let activePath = this.routes[0].path;
       if (path.lastIndexOf("/") > 0) {
         const tmpPath = path.substring(1, path.length);
         activePath = "/" + tmpPath.substring(0, tmpPath.indexOf("/"));
@@ -100,17 +114,17 @@ export default {
       }
       var routes = this.activeRoutes(activePath);
       if (routes.length === 0) {
-        activePath = this.currentIndex || this.routers[0].path
+        activePath = this.currentIndex || this.routes[0].path;
         this.activeRoutes(activePath);
       }
       return activePath;
-    },
+    }
   },
   beforeMount() {
-    window.addEventListener('resize', this.setVisibleNumber)
+    window.addEventListener("resize", this.setVisibleNumber);
   },
   beforeDestroy() {
-    window.removeEventListener('resize', this.setVisibleNumber)
+    window.removeEventListener("resize", this.setVisibleNumber);
   },
   mounted() {
     this.setVisibleNumber();
@@ -139,21 +153,21 @@ export default {
     activeRoutes(key) {
       var routes = [];
       if (this.childrenMenus && this.childrenMenus.length > 0) {
-        this.childrenMenus.map((item) => {
+        this.childrenMenus.map(item => {
           if (key == item.parentPath || (key == "index" && "" == item.path)) {
             routes.push(item);
           }
         });
       }
-      if(routes.length > 0) {
-        this.$store.commit("SET_SIDEBAR_ROUTERS", routes);
+      if (routes.length > 0) {
+        this.$store.dispatch("permission/changeSidebarRoutes", routes);
       }
       return routes;
     },
-	ishttp(url) {
-      return url.indexOf('http://') !== -1 || url.indexOf('https://') !== -1
+    ishttp(url) {
+      return url.indexOf("http://") !== -1 || url.indexOf("https://") !== -1;
     }
-  },
+  }
 };
 </script>
 
@@ -170,13 +184,13 @@ export default {
 }
 
 .el-menu--horizontal > .el-menu-item.is-active {
-  border-bottom: 3px solid #{'var(--theme)'};
+  border-bottom: 3px solid #{"var(--theme)"};
   color: #303133;
 }
 
 /* submenu item */
 .el-menu--horizontal > .el-submenu .el-submenu__title {
-	height: 50px !important;
-	line-height: 50px !important;
+  height: 50px !important;
+  line-height: 50px !important;
 }
 </style>

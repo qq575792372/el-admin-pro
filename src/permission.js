@@ -5,15 +5,15 @@ import NProgress from "nprogress"; // progress bar
 import "nprogress/nprogress.css"; // progress bar style
 import { getToken } from "@/utils/auth"; // get token from cookie
 import getPageTitle from "@/utils/get-page-title";
+// 引入异步路由菜单数据
+import { asyncRouters } from "./router/asyncRouters";
 
 NProgress.configure({ showSpinner: false }); // NProgress Configuration
-
 const whiteList = ["/login"]; // no redirect whitelist
 
 router.beforeEach(async (to, from, next) => {
   // start progress bar
   NProgress.start();
-
   //设置页面标题（如果开启了动态标题则会拼加路由的title）
   document.title = getPageTitle(store.getters.dynamicTitle && to.meta.title);
 
@@ -26,14 +26,19 @@ router.beforeEach(async (to, from, next) => {
       next({ path: "/" });
       NProgress.done();
     } else {
-      // 拉去并添加过动态路由，不再添加
+      //拉取过权限路由菜单，不再添加
       if (store.getters.addRoutes.length > 0) {
         next();
       } else {
         // 权限路由
-        const accessRoutes = await store.dispatch("permission/generateRoutes");
+        const accessRoutes = await store.dispatch(
+          "permission/generateRoutes",
+          asyncRouters
+        );
+        // 追加个404页面，防止随意输入地址找不到
+        accessRoutes.push({ path: "*", redirect: "/404", hidden: true });
+        // 添加到路由链
         router.addRoutes(accessRoutes);
-        // next page
         next({ ...to, replace: true });
       }
     }
