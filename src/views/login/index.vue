@@ -1,175 +1,201 @@
 <template>
   <div class="login-container">
-    <el-form
-      ref="loginForm"
-      :model="loginForm"
-      :rules="loginRules"
-      class="login-form"
-      auto-complete="on"
-      label-position="left"
-    >
-      <div class="title-container">
-        <h3 class="title">后台管理</h3>
+    <!-- 登录背景 -->
+    <div class="login-bg" :style="{ filter: `blur(${loginBgBlur})` }"></div>
+    <!-- 登录窗口 -->
+    <div class="login-main">
+      <!-- 标题 -->
+      <div class="login-title">
+        后台管理
       </div>
-      <!-- 用户名 -->
-      <el-form-item prop="username">
-        <span class="svg-container">
-          <svg-icon icon-class="user" />
-        </span>
-        <el-input
-          ref="username"
-          v-model="loginForm.username"
-          placeholder="输入用户名"
-          name="username"
-          type="text"
-          tabindex="1"
-          auto-complete="on"
-        />
-      </el-form-item>
-      <!-- 密码 -->
-      <el-form-item prop="password">
-        <span class="svg-container">
-          <svg-icon icon-class="password" />
-        </span>
-        <el-input
-          :key="passwordType"
-          ref="password"
-          v-model="loginForm.password"
-          :type="passwordType"
-          placeholder="输入密码"
-          name="password"
-          tabindex="2"
-          auto-complete="on"
-          @keyup.enter.native="handleLogin"
-        />
-        <span class="show-pwd" @click="showPwd">
-          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
-        </span>
-      </el-form-item>
-      <!-- 验证码 -->
-      <el-form-item prop="validcode">
-        <div class="validcode">
-          <div class="item-left">
-            <span class="svg-container">
-              <svg-icon icon-class="guide" />
-            </span>
-            <el-input
-              ref="validcode"
-              v-model="loginForm.validcode"
-              placeholder="输入验证码"
-              name="validcode"
-              type="text"
-              tabindex="1"
-            ></el-input>
+      <el-form
+        ref="loginForm"
+        :model="loginForm"
+        :rules="loginRules"
+        class="login-form"
+        label-position="left"
+      >
+        <!-- 用户名 -->
+        <el-form-item prop="username">
+          <el-input
+            ref="username"
+            v-model="loginForm.username"
+            placeholder="输入用户名"
+            name="username"
+            type="text"
+            tabindex="1"
+            auto-complete="on"
+          >
+            <i slot="prefix" class="el-icon-user-solid"></i>
+          </el-input>
+        </el-form-item>
+        <!-- 密码 -->
+        <el-form-item prop="password">
+          <el-input
+            :key="passwordType"
+            ref="password"
+            v-model="loginForm.password"
+            :type="passwordType"
+            placeholder="输入密码"
+            name="password"
+            tabindex="2"
+          >
+            <svg-icon slot="prefix" icon-class="password" />
+            <!-- 切换密码图标 -->
+            <svg-icon
+              slot="suffix"
+              @click.native="showPwd"
+              style=" cursor: pointer; color:#606266;user-select:none;"
+              :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"
+            />
+          </el-input>
+        </el-form-item>
+        <!-- 验证码 -->
+        <el-form-item prop="validcode">
+          <div class="valid-box">
+            <div class="valid-input">
+              <el-input
+                ref="validcode"
+                v-model="loginForm.validcode"
+                placeholder="输入验证码"
+                name="validcode"
+                type="text"
+                tabindex="3"
+              >
+                <svg-icon slot="prefix" icon-class="validCode" />
+              </el-input>
+            </div>
+            <img
+              class="valid-img"
+              :src="validImageUrl"
+              @click="handleChangeValidImageUrl"
+            />
           </div>
-          <img class="item-right" :src="validImageUrl" @click="handleChangeValidImageUrl" />
-        </div>
-      </el-form-item>
-      <!-- 登录 -->
-      <el-button
-        :loading="loginLoading"
-        type="primary"
-        style="width:100%; margin-bottom:20px; margin-top:20px; border-radius:6px;"
-        @click.native.prevent="handleLogin"
-      >{{loginLoading ? '登录中..' : '登录'}}</el-button>
-      <!-- 底部提示 -->
-      <div class="tips">
-        <span style="float: right;">-账号，密码，验证码随意输入-</span>
+        </el-form-item>
+        <!-- 登录 -->
+        <el-button
+          :loading="loginLoading"
+          type="primary"
+          tabindex="4"
+          style="width:100%; margin-bottom:15px; margin-top:10px; border-radius:6px;"
+          @click.native.prevent="handleLogin"
+          >{{ loginLoading ? "登录中.." : "登录" }}</el-button
+        >
+      </el-form>
+      <!-- 去注册和忘记密码 -->
+      <div class="login-operate">
+        <el-link size="small" :underline="false" type="primary">去注册</el-link>
+        <el-link size="small" :underline="false" type="primary"
+          >忘记密码?</el-link
+        >
       </div>
-    </el-form>
+      <!-- 底部提示 -->
+      <div class="login-tips">
+        <span style="float: right;">账号，密码，验证码随意输入</span>
+      </div>
+    </div>
+    <!-- 登录底部 -->
+    <div class="login-footer">
+      Copyright © 2021 vue-element-admin All Rights Reserved.
+    </div>
   </div>
 </template>
 
 <script>
-import { validUsername } from '@/utils/validate'
-
+import { loginBgBlur } from "@/settings";
 export default {
-  name: 'Login',
+  name: "Login",
   data() {
     return {
+      // 背景图片高斯模糊像素，通过settings配置中获取
+      loginBgBlur,
+
       // 登录表单
       loginForm: {
-        username: '',
-        password: '',
-        validcode: '',
+        username: "",
+        password: "",
+        validcode: ""
       },
       // 登录表单验证规则
       loginRules: {
-        username: [{
-          required: true,
-          trigger: 'blur',
-          validator: (rule, value, callback) => {
-            if (!value) {
-              callback(new Error('请输入用户名'))
-            } else {
-              callback()
+        username: [
+          {
+            required: true,
+            trigger: "blur",
+            validator: (rule, value, callback) => {
+              if (!value) {
+                callback(new Error("请输入用户名"));
+              } else {
+                callback();
+              }
             }
           }
-        }],
-        password: [{
-          required: true,
-          trigger: 'blur',
-          validator: (rule, value, callback) => {
-            if (!value) {
-              callback(new Error('请输入密码'))
-            } else {
-              callback()
+        ],
+        password: [
+          {
+            required: true,
+            trigger: "blur",
+            validator: (rule, value, callback) => {
+              if (!value) {
+                callback(new Error("请输入密码"));
+              } else {
+                callback();
+              }
             }
           }
-        }],
-        validcode: [{
-          required: true,
-          trigger: 'blur',
-          validator: (rule, value, callback) => {
-            if (!value) {
-              callback(new Error('请输入验证码'))
-            } else {
-              callback()
+        ],
+        validcode: [
+          {
+            required: true,
+            trigger: "blur",
+            validator: (rule, value, callback) => {
+              if (!value) {
+                callback(new Error("请输入验证码"));
+              } else {
+                callback();
+              }
             }
           }
-        }],
+        ]
       },
 
       // 验证码图片地址
-      validImageUrl: '',
+      validImageUrl: (this.validImageUrl =
+        "http://119.23.220.221:8090/hltrip_web/kaptcha/adminKaptcha?t=" +
+        new Date().getTime()),
+
       // 登录loading
       loginLoading: false,
-      passwordType: 'password',
+
+      // 切换显示隐藏密码
+      passwordType: "password",
+
+      // 跳转登录来源
       redirect: null
-    }
+    };
   },
   watch: {
     // 监听首页路由地址来源，登录后跳转到该地址
     $route: {
-      handler: function (route) {
-        this.redirect = route.query && route.query.redirect
+      handler: function(route) {
+        this.redirect = route.query && route.query.redirect;
       },
       immediate: true
     }
   },
   created() {
     // 初始化验证码图片地址
-    this.validImageUrl = process.env.VUE_APP_BASE_API + '/hltrip_shop/kaptcha/adminKaptcha?t=' + new Date().getTime();
+    this.validImageUrl =
+      process.env.VUE_APP_BASE_API +
+      "/hltrip_shop/kaptcha/adminKaptcha?t=" +
+      new Date().getTime();
   },
   mounted() {
     window.addEventListener("keydown", this.onKeyDown);
   },
   methods: {
     /**
-     * 切换密码显示
-     */
-    showPwd() {
-      if (this.passwordType === 'password') {
-        this.passwordType = ''
-      } else {
-        this.passwordType = 'password'
-      }
-      this.$nextTick(() => {
-        this.$refs.password.focus()
-      })
-    },
-    /**
-     * 回车登录
+     * 点击回车登录
      */
     onKeyDown(e) {
       if (e.keyCode == 13) {
@@ -177,168 +203,161 @@ export default {
       }
     },
     /**
+     * 切换密码显示
+     */
+    showPwd() {
+      if (this.passwordType === "password") {
+        this.passwordType = "";
+      } else {
+        this.passwordType = "password";
+      }
+      this.$nextTick(() => {
+        this.$refs.password.focus();
+      });
+    },
+
+    /**
      * 点击登录
      */
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loginLoading = true;
-          this.$store.dispatch('user/login', this.loginForm).then((res) => {
-            setTimeout(() => {
+          this.$store
+            .dispatch("user/login", this.loginForm)
+            .then(res => {
+              setTimeout(() => {
+                this.loginLoading = false;
+              }, 300);
+              if (res.code == "0000") {
+                this.$router.push({ path: this.redirect || "/" });
+              } else {
+                this.$message({
+                  message: res.message,
+                  type: "error"
+                });
+              }
+            })
+            .catch(() => {
               this.loginLoading = false;
-            }, 300);
-            if (res.code == '0000') {
-              this.$router.push({ path: this.redirect || '/' })
-            } else {
-              this.$message({
-                message: res.message,
-                type: 'error'
-              })
-            }
-          }).catch(() => {
-            this.loginLoading = false;
-          })
+            });
         } else {
           this.loginLoading = false;
-          return false
+          return false;
         }
-      })
+      });
     },
     /**
      * 点击更改验证码图片
      */
     handleChangeValidImageUrl() {
-      this.validImageUrl = process.env.VUE_APP_BASE_API + '/hltrip_web/kaptcha/adminKaptcha?t=' + new Date().getTime();
+      this.validImageUrl =
+        "http://119.23.220.221:8090/hltrip_web/kaptcha/adminKaptcha?t=" +
+        new Date().getTime();
     }
   },
   destroyed() {
     // 离开页面，清空回车事件
     window.removeEventListener("keydown", this.onKeyDown, false);
   }
-}
+};
 </script>
 
-<style lang="scss">
-/* 修复input 背景不协调 和光标变色 */
-/* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
-
-$bg: #283443;
-$light_gray: #fff;
-$cursor: #fff;
-
-@supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
-  .login-container .el-input input {
-    color: $cursor;
-  }
-}
-
-/* reset element-ui css */
-.login-container {
-  .el-input {
-    display: inline-block;
-    height: 47px;
-    width: 85%;
-
-    input {
-      background: transparent;
-      border: 0px;
-      -webkit-appearance: none;
-      border-radius: 0px;
-      padding: 12px 5px 12px 15px;
-      color: $light_gray;
-      height: 47px;
-      caret-color: $cursor;
-
-      &:-webkit-autofill {
-        box-shadow: 0 0 0px 1000px $bg inset !important;
-        -webkit-text-fill-color: $cursor !important;
-      }
-    }
-  }
-
-  .el-form-item {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 6px;
-    color: #454545;
-  }
-}
-</style>
-
 <style lang="scss" scoped>
-$bg: #2d3a4b;
-$dark_gray: #889aa4;
-$light_gray: #eee;
-
 .login-container {
-  min-height: 100%;
-  width: 100%;
-  background-color: $bg;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
   overflow: hidden;
-
-  .login-form {
-    position: relative;
-    width: 520px;
-    max-width: 100%;
-    padding: 160px 35px 0;
-    margin: 0 auto;
-    overflow: hidden;
-    // 验证码
-    .validcode {
-      display: flex;
-      .item-left {
-        flex: 1;
-      }
-      .item-right {
-        height: 52px;
-        width: 160px;
-        cursor: pointer;
-        border-top-right-radius: 6px;
-        border-bottom-right-radius: 6px;
-      }
-    }
-  }
-
-  .tips {
-    font-size: 14px;
-    color: #fff;
-    margin-bottom: 10px;
-
-    span {
-      &:first-of-type {
-        margin-right: 16px;
-      }
-    }
-  }
-
-  .svg-container {
-    padding: 6px 5px 6px 15px;
-    color: $dark_gray;
-    vertical-align: middle;
-    width: 30px;
-    display: inline-block;
-  }
-
-  .title-container {
-    position: relative;
-
-    .title {
-      font-size: 26px;
-      color: $light_gray;
-      margin: 0px auto 40px auto;
-      text-align: center;
-      font-weight: bold;
-    }
-  }
-
-  .show-pwd {
+  // 背景图片，加入高斯模糊
+  .login-bg {
     position: absolute;
-    right: 10px;
-    top: 7px;
-    font-size: 16px;
-    color: $dark_gray;
-    cursor: pointer;
-    user-select: none;
+    background: url("../../assets/login_bg.jpg") no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    transform: scale(1.06); // 放大图片，可以解决四周模糊后白边的问题
+    // filter: blur(10px);
+  }
+
+  // 登录主窗口
+  .login-main {
+    position: fixed;
+    z-index: 10;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 400px;
+    height: 390px;
+    z-index: 1000;
+    margin: auto;
+    border-radius: 6px;
+    background: #fff;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    // 登录标题
+    .login-title {
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+      color: #303133;
+      padding: 16px;
+      border-bottom: solid 1px #e8eaec;
+    }
+    // 登录表单
+    .login-form {
+      padding: 25px 20px 0px 20px;
+      .el-form-item {
+        margin-bottom: 24px;
+      }
+      // 验证码样式
+      .valid-box {
+        display: flex;
+        .valid-input {
+          flex: 1;
+          margin-right: 10px;
+        }
+        .valid-img {
+          width: 140px;
+          height: 40px;
+          cursor: pointer;
+        }
+      }
+    }
+    // 去注册和忘记密码
+    .login-operate {
+      display: flex;
+      justify-content: space-between;
+      padding: 0px 20px;
+    }
+    // 登录小提示
+    .login-tips {
+      font-size: 12px;
+      color: #909399;
+      padding: 10px 20px;
+    }
+  }
+  // 底部工商备案信息
+  .login-footer {
+    height: 40px;
+    line-height: 40px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    font-family: Arial;
+    font-size: 12px;
+    letter-spacing: 1px;
+    z-index: 10;
   }
 }
 </style>

@@ -34,5 +34,10 @@ module.exports = {
   /**
    * 是否显示动态标题
    */
-  dynamicTitle: true
+  dynamicTitle: true,
+
+  /**
+   * 背景图片高斯模糊像素
+   */
+  loginBgBlur: "10px"
 };
