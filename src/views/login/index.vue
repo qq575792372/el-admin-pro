@@ -275,7 +275,7 @@ export default {
   // 背景图片，加入高斯模糊
   .login-bg {
     position: absolute;
-    background: url("../../assets/login_bg.jpg") no-repeat;
+    background: url("../../assets/login_bg_1.jpg") no-repeat;
     background-size: cover;
     background-attachment: fixed;
     background-position: center;
