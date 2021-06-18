@@ -74,7 +74,7 @@
       >{{loginLoading ? '登录中..' : '登录'}}</el-button>
       <!-- 底部提示 -->
       <div class="tips">
-        <span style="float: right;">-壹诺科技-</span>
+        <span style="float: right;">-账号，密码，验证码随意输入-</span>
       </div>
     </el-form>
   </div>
