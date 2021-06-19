@@ -226,7 +226,7 @@ export default {
       localStorage.setItem(
         "layout-setting",
         `{
-         "topNav":${this.topNav},
+            "topNav":${this.topNav},
             "tagsView":${this.tagsView},
             "fixedHeader":${this.fixedHeader},
             "sidebarLogo":${this.sidebarLogo},

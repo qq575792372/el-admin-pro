@@ -14,6 +14,7 @@ const getters = {
   addRoutes: state => state.permission.addRoutes,
   sidebarRoutes: state => state.permission.sidebarRoutes,
   // settings
-  dynamicTitle: state => state.settings.dynamicTitle
+  dynamicTitle: state => state.settings.dynamicTitle,
+  pageTitle: state => state.settings.pageTitle
 };
 export default getters;

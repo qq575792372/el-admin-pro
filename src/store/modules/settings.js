@@ -13,7 +13,7 @@ const {
 
 const storageSetting = JSON.parse(localStorage.getItem("layout-setting")) || "";
 const state = {
-  title: "",
+  pageTitle: "", // 当前的网页标题
   theme: storageSetting.theme || variables.theme,
   sideTheme: storageSetting.sideTheme || sideTheme,
   showSettings: showSettings,
@@ -38,6 +38,9 @@ const mutations = {
     if (state.hasOwnProperty(key)) {
       state[key] = value;
     }
+  },
+  SET_PAGE_TITLE: (state, pageTitle) => {
+    state.pageTitle = pageTitle;
   }
 };
 
@@ -47,8 +50,8 @@ const actions = {
     commit("CHANGE_SETTING", data);
   },
   // 设置网页标题
-  setTitle({ commit }, title) {
-    state.title = title;
+  setPageTitle({ commit }, pageTitle) {
+    commit("SET_PAGE_TITLE", pageTitle);
   }
 };
 

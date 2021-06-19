@@ -4,18 +4,20 @@ import { Message } from "element-ui";
 import NProgress from "nprogress"; // progress bar
 import "nprogress/nprogress.css"; // progress bar style
 import { getToken } from "@/utils/auth"; // get token from cookie
-import getPageTitle from "@/utils/get-page-title";
+
 // 引入异步路由菜单数据
 import { asyncRouters } from "./router/asyncRouters";
 
 NProgress.configure({ showSpinner: false }); // NProgress Configuration
+
 const whiteList = ["/login"]; // no redirect whitelist
 
+// 路由前置守卫
 router.beforeEach(async (to, from, next) => {
   // start progress bar
   NProgress.start();
   //设置页面标题（如果开启了动态标题则会拼加路由的title）
-  document.title = getPageTitle(store.getters.dynamicTitle && to.meta.title);
+  to.meta.title && store.dispatch("settings/setPageTitle", to.meta.title);
 
   // 获取登录的token
   const hasToken = getToken();
@@ -55,6 +57,7 @@ router.beforeEach(async (to, from, next) => {
   }
 });
 
+// 路由后置 守卫
 router.afterEach(() => {
   // finish progress bar
   NProgress.done();
