@@ -4,7 +4,6 @@
     mode="horizontal"
     @select="handleSelect"
   >
-    {{ activeMenu }}
     <template v-for="(item, index) in topMenus">
       <el-menu-item
         :style="{ '--theme': theme }"
@@ -12,6 +11,7 @@
         :key="index"
         v-if="index < visibleNumber"
       >
+        <!-- 兼容svg图片和el-icon -->
         <item
           v-if="item.meta"
           :icon="item.meta && item.meta.icon"
@@ -22,13 +22,16 @@
 
     <!-- 顶部菜单超出数量折叠 -->
     <el-submenu index="more" v-if="topMenus.length > visibleNumber">
-      <template slot="title">更多菜单</template>
+      <template slot="title">
+        更多菜单
+      </template>
       <template v-for="(item, index) in topMenus">
         <el-menu-item
           :index="item.path"
           :key="index"
           v-if="index >= visibleNumber"
         >
+          <!-- 兼容svg图片和el-icon -->
           <item
             v-if="item.meta"
             :icon="item.meta && item.meta.icon"
@@ -41,10 +44,9 @@
 </template>
 
 <script>
-import { constantRoutes } from "@/router";
 import { mapGetters } from "vuex";
 import Item from "./Item";
-import { isExternal } from "@/utils/validate";
+
 export default {
   components: { Item },
   data() {
@@ -66,29 +68,26 @@ export default {
     // 顶部显示菜单
     topMenus() {
       let topMenus = [];
-      this.routes.map(menu => {
-        if (menu.hidden !== true) {
-          // 兼容顶部栏一级菜单内部跳转
-          if (menu.path === "/") {
-            topMenus.push(menu.children[0]);
-          } else {
-            topMenus.push(menu);
-          }
+      this.routers.map(menu => {
+        // 排除掉hidden=true的和默认路由 path='/' 的
+        if (menu.hidden !== true && menu.path !== "/") {
+          topMenus.push(menu);
         }
       });
       return topMenus;
     },
+    // 所有的路由信息
+    routers() {
+      return this.$store.state.permission.routes;
+    },
     // 遍历所有的子路由，子路由的路径加上父路径
     childrenMenus() {
       var childrenMenus = [];
-      this.routes.map(router => {
+      this.routers.map(router => {
         for (var item in router.children) {
           if (router.children[item].parentPath === undefined) {
-            if (router.path === "/") {
-              router.children[item].path =
-                "/redirect/" + router.children[item].path;
-            } else {
-              if (!this.isHttp(router.children[item].path)) {
+            if (router.path !== "/") {
+              if (!this.ishttp(router.children[item].path)) {
                 router.children[item].path =
                   router.path + "/" + router.children[item].path;
               }
@@ -103,20 +102,14 @@ export default {
     // 默认激活的菜单
     activeMenu() {
       const path = this.$route.path;
-      let activePath = this.routes[0].path;
+      let activePath = this.routers[0].path;
       if (path.lastIndexOf("/") > 0) {
         const tmpPath = path.substring(1, path.length);
         activePath = "/" + tmpPath.substring(0, tmpPath.indexOf("/"));
-      } else if ("/index" == path || "" == path) {
-        if (!this.isFrist) {
-          this.isFrist = true;
-        } else {
-          activePath = "index";
-        }
       }
       var routes = this.activeRoutes(activePath);
       if (routes.length === 0) {
-        activePath = this.currentIndex || this.routes[0].path;
+        activePath = this.currentIndex || this.routers[0].path;
         this.activeRoutes(activePath);
       }
       return activePath;
@@ -131,24 +124,16 @@ export default {
   mounted() {
     this.setVisibleNumber();
   },
-  updated() {
-    console.log("topMenus", this.topMenus);
-  },
   methods: {
-    /**
-     * 根据宽度计算设置显示栏数
-     */
+    // 根据宽度计算设置显示栏数
     setVisibleNumber() {
-      const width = document.body.getBoundingClientRect().width;
-      this.visibleNumber = parseInt(width / 85 / 3);
+      const width = document.body.getBoundingClientRect().width / 2;
+      this.visibleNumber = parseInt(width / 80);
     },
-    /**
-     * 菜单选择事件
-     */
+    // 菜单选择事件
     handleSelect(key, keyPath) {
-      console.log("handleSelect", key);
       this.currentIndex = key;
-      if (this.isHttp(key)) {
+      if (this.ishttp(key)) {
         // http(s):// 路径新窗口打开
         window.open(key, "_blank");
       } else if (key.indexOf("/redirect") !== -1) {
@@ -159,15 +144,12 @@ export default {
         this.activeRoutes(key);
       }
     },
-    /**
-     * 当前激活的路由
-     */
+    // 当前激活的路由
     activeRoutes(key) {
-      console.log("activeRoutes", key, this.childrenMenus);
       var routes = [];
       if (this.childrenMenus && this.childrenMenus.length > 0) {
         this.childrenMenus.map(item => {
-          if (key == item.parentPath || (key == "index" && "" == item.path)) {
+          if (key == item.parentPath) {
             routes.push(item);
           }
         });
@@ -177,10 +159,7 @@ export default {
       }
       return routes;
     },
-    /**
-     * 是否是http链接
-     */
-    isHttp(url) {
+    ishttp(url) {
       return url.indexOf("http://") !== -1 || url.indexOf("https://") !== -1;
     }
   }
@@ -193,20 +172,20 @@ export default {
   height: 50px;
   line-height: 50px;
   margin: 0;
-  border-bottom: 3px solid transparent;
-  color: #999093;
+  border-bottom: 2px solid transparent;
   padding: 0 5px;
   margin: 0 10px;
 }
 
 .el-menu--horizontal > .el-menu-item.is-active {
-  border-bottom: 3px solid #{"var(--theme)"};
-  color: #303133;
+  border-bottom: 2px solid #{"var(--theme)"};
 }
 
 /* submenu item */
 .el-menu--horizontal > .el-submenu .el-submenu__title {
+  padding: 0 5px;
   height: 50px !important;
-  line-height: 50px !important;
+  line-height: 52px !important;
+  margin: 0 10px;
 }
 </style>

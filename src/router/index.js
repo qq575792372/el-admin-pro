@@ -72,22 +72,34 @@ export const constantRoutes = [
     hidden: true
   },
 
-  // 首页
+  // 默认路由跳转到首页
   {
     path: "/",
+    redirect: "/dashboard/index",
+    component: Layout
+  },
+
+  // 首页
+  {
+    path: "/dashboard",
     component: Layout,
-    redirect: "/index",
+    redirect: "/dashboard/index",
+    meta: {
+      title: "首页",
+      icon: "el-icon-s-home"
+    },
     children: [
       {
         path: "index",
         name: "index",
-        component: () => import("@/views/index"),
-        meta: { title: "首页", affix: true, icon: "el-icon-s-home" }
+        component: () => import("@/views/dashboard/index"),
+        meta: { title: "首页", affix: true }
       }
     ]
   }
 
   // 404 page must be placed at the end !!!
+  // 如果有权限菜单，需要写在权限路由加载后的最后面，不然刷新页面会404
   // { path: "*", redirect: "/404", hidden: true }
 ];
 

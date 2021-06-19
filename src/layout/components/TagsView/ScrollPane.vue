@@ -45,20 +45,16 @@ export default {
   methods: {
     handleScroll(e) {
       const eventDelta = e.wheelDelta || -e.deltaY * 40;
-      console.log("eventDelta", eventDelta);
       const $scrollWrapper = this.scrollWrapper;
       $scrollWrapper.scrollLeft = $scrollWrapper.scrollLeft + eventDelta / 4;
-      console.log("$scrollWrapper.scrollLeft", $scrollWrapper.scrollLeft);
     },
     emitScroll() {
       this.$emit("scroll");
     },
     handleLeftScroll(offset) {
       const eventDelta = offset;
-      console.log("eventDelta", eventDelta);
       const $scrollWrapper = this.scrollWrapper;
       $scrollWrapper.scrollLeft = $scrollWrapper.scrollLeft + eventDelta / 4;
-      console.log("$scrollWrapper.scrollLeft", $scrollWrapper.scrollLeft);
     },
     moveToTarget(currentTag) {
       const $container = this.$refs.scrollContainer.$el;
