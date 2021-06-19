@@ -39,5 +39,5 @@ module.exports = {
   /**
    * 背景图片高斯模糊像素
    */
-  loginBgBlur: "10px"
+  loginBgBlur: "20px"
 };

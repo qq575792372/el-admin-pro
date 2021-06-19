@@ -4,6 +4,7 @@
     mode="horizontal"
     @select="handleSelect"
   >
+    {{ activeMenu }}
     <template v-for="(item, index) in topMenus">
       <el-menu-item
         :style="{ '--theme': theme }"
@@ -43,6 +44,7 @@
 import { constantRoutes } from "@/router";
 import { mapGetters } from "vuex";
 import Item from "./Item";
+import { isExternal } from "@/utils/validate";
 export default {
   components: { Item },
   data() {
@@ -65,10 +67,10 @@ export default {
     topMenus() {
       let topMenus = [];
       this.routes.map(menu => {
-        if (menu.hidden !== true && menu.path != "/" && menu.path != "/index") {
+        if (menu.hidden !== true) {
           // 兼容顶部栏一级菜单内部跳转
           if (menu.path === "/") {
-            // topMenus.push(menu.children[0]);
+            topMenus.push(menu.children[0]);
           } else {
             topMenus.push(menu);
           }
@@ -76,7 +78,7 @@ export default {
       });
       return topMenus;
     },
-    // 设置子路由
+    // 遍历所有的子路由，子路由的路径加上父路径
     childrenMenus() {
       var childrenMenus = [];
       this.routes.map(router => {
@@ -86,7 +88,7 @@ export default {
               router.children[item].path =
                 "/redirect/" + router.children[item].path;
             } else {
-              if (!this.ishttp(router.children[item].path)) {
+              if (!this.isHttp(router.children[item].path)) {
                 router.children[item].path =
                   router.path + "/" + router.children[item].path;
               }
@@ -96,7 +98,7 @@ export default {
           childrenMenus.push(router.children[item]);
         }
       });
-      return constantRoutes.concat(childrenMenus);
+      return childrenMenus;
     },
     // 默认激活的菜单
     activeMenu() {
@@ -129,16 +131,24 @@ export default {
   mounted() {
     this.setVisibleNumber();
   },
+  updated() {
+    console.log("topMenus", this.topMenus);
+  },
   methods: {
-    // 根据宽度计算设置显示栏数
+    /**
+     * 根据宽度计算设置显示栏数
+     */
     setVisibleNumber() {
-      const width = document.body.getBoundingClientRect().width / 3;
-      this.visibleNumber = parseInt(width / 85);
+      const width = document.body.getBoundingClientRect().width;
+      this.visibleNumber = parseInt(width / 85 / 3);
     },
-    // 菜单选择事件
+    /**
+     * 菜单选择事件
+     */
     handleSelect(key, keyPath) {
+      console.log("handleSelect", key);
       this.currentIndex = key;
-      if (this.ishttp(key)) {
+      if (this.isHttp(key)) {
         // http(s):// 路径新窗口打开
         window.open(key, "_blank");
       } else if (key.indexOf("/redirect") !== -1) {
@@ -149,8 +159,11 @@ export default {
         this.activeRoutes(key);
       }
     },
-    // 当前激活的路由
+    /**
+     * 当前激活的路由
+     */
     activeRoutes(key) {
+      console.log("activeRoutes", key, this.childrenMenus);
       var routes = [];
       if (this.childrenMenus && this.childrenMenus.length > 0) {
         this.childrenMenus.map(item => {
@@ -164,7 +177,10 @@ export default {
       }
       return routes;
     },
-    ishttp(url) {
+    /**
+     * 是否是http链接
+     */
+    isHttp(url) {
       return url.indexOf("http://") !== -1 || url.indexOf("https://") !== -1;
     }
   }

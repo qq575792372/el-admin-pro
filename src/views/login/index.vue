@@ -6,7 +6,7 @@
     <div class="login-main">
       <!-- 标题 -->
       <div class="login-title">
-        后台管理
+        后台管理登录
       </div>
       <el-form
         ref="loginForm"
@@ -270,7 +270,7 @@ export default {
   // 背景图片，加入高斯模糊
   .login-bg {
     position: absolute;
-    background: url("../../assets/login_bg_1.jpg") no-repeat;
+    background: url("../../assets/login/login_bg_2.jpg") no-repeat;
     background-size: cover;
     background-attachment: fixed;
     background-position: center;
@@ -291,10 +291,11 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
-    width: 400px;
-    height: 390px;
+    width: 460px;
+    height: 420px;
     z-index: 1000;
     margin: auto;
+    margin-top: 10%;
     border-radius: 6px;
     background: #fff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
@@ -305,7 +306,7 @@ export default {
       font-weight: bold;
       text-align: center;
       color: #303133;
-      padding: 16px;
+      padding: 20px;
       border-bottom: solid 1px #e8eaec;
     }
 
@@ -313,7 +314,7 @@ export default {
     .login-form {
       padding: 25px 20px 0px 20px;
       .el-form-item {
-        margin-bottom: 24px;
+        margin-bottom: 26px;
       }
       // 验证码样式
       .valid-box {
@@ -341,7 +342,7 @@ export default {
     .login-tips {
       font-size: 12px;
       color: #909399;
-      padding: 10px 20px;
+      padding: 20px;
     }
   }
 

@@ -165,7 +165,7 @@ export const asyncRouters = [
       title: "订单",
       icon: "el-icon-s-order"
     },
-    alwaysShow: true,
+    alwaysShow: false,
     children: [
       {
         path: "orderList",
@@ -375,13 +375,8 @@ export const asyncRouters = [
 
   // 跳转外部链接
   {
-    path: "跳转链接",
-    component: Layout,
-    children: [
-      {
-        path: "https://www.baidu.com",
-        meta: { title: "跳转百度", icon: "el-icon-share" }
-      }
-    ]
+    path: "https://www.baidu.com",
+    name: "linkBaidu",
+    meta: { title: "跳转百度", icon: "el-icon-share" }
   }
 ];

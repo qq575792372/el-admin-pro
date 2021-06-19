@@ -14,7 +14,6 @@ Vue.use(Router);
 /* Layout */
 import Layout from "@/layout";
 
-
 /**
  * Note: sub-menu only appear when route children.length >= 1
  * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
@@ -53,12 +52,14 @@ export const constantRoutes = [
     ]
   },
 
+  // 登录
   {
     path: "/login",
     component: () => import("@/views/login/index"),
     hidden: true
   },
 
+  // 错误页面
   {
     path: "/404",
     component: () => import("@/views/404"),
@@ -84,7 +85,7 @@ export const constantRoutes = [
         meta: { title: "首页", affix: true, icon: "el-icon-s-home" }
       }
     ]
-  },
+  }
 
   // 404 page must be placed at the end !!!
   // { path: "*", redirect: "/404", hidden: true }
