@@ -214,7 +214,9 @@ export default {
       });
       this.theme = val;
     },
-
+    /**
+     * 保存布局设置
+     */
     saveSetting() {
       const loading = this.$loading({
         lock: true,
@@ -237,6 +239,9 @@ export default {
       );
       setTimeout(loading.close(), 1000);
     },
+    /**
+     * 重置布局设置
+     */
     resetSetting() {
       this.$loading({
         lock: true,

@@ -204,13 +204,8 @@ import Tinymce from "@/components/Tinymce";
 // 引入util工具类
 import util from "@/utils/util.js";
 // 引入接口api
-import {
-  getList,
-  addTable,
-  updateTable,
-  deleteTable,
-  uploadFile
-} from "@/api/table.js";
+import { uploadFile } from "@/api/common";
+import { getList, addTable, updateTable, deleteTable } from "@/api/table.js";
 
 export default {
   // 引入富文本组件

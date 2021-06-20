@@ -14,11 +14,11 @@
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
-    "axios": "0.21.1",
+    "axios": "^0.21.1",
     "core-js": "3.14.0",
-    "echarts": "5.1.2",
+    "echarts": "^5.1.2",
     "element-ui": "^2.15.2",
-    "js-cookie": "2.2.1",
+    "js-cookie": "^2.2.1",
     "normalize.css": "8.0.1",
     "nprogress": "0.2.0",
     "path-to-regexp": "2.4.0",

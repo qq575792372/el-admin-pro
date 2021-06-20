@@ -279,7 +279,7 @@ export default {
     right: 0;
     bottom: 0;
     z-index: 1;
-    transform: scale(1.06); // 放大图片，可以解决四周模糊后白边的问题
+    transform: scale(1.06); // 放大图片，可以解决模糊后四周有白边的问题
     // filter: blur(10px);
   }
 
