@@ -21,7 +21,7 @@
 
       <el-dropdown class="avatar-container" trigger="click" size="medium">
         <div class="avatar-wrapper">
-          <img src="../../assets/avatar_logo.png" class="user-avatar" />
+          <img src="../../assets/avatar.png" class="user-avatar" />
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
@@ -120,7 +120,7 @@ export default {
 
     .avatar_title {
       font-size: 14px;
-      color: #333;
+      color: #303133;
       position: relative;
       top: -14px;
       right: 10px;
@@ -146,19 +146,18 @@ export default {
         }
       }
     }
-
+    // 头像
     .avatar-container {
       margin-right: 20px;
-
       .avatar-wrapper {
-        margin-top: 5px;
+        margin-top: 8px;
         position: relative;
-
+        // 头像图片
         .user-avatar {
           cursor: pointer;
-          width: 40px;
-          height: 40px;
-          border-radius: 10px;
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
         }
 
         .el-icon-caret-bottom {
@@ -175,6 +174,6 @@ export default {
 // 调整退出按钮的样式，稍微靠上一些
 .el-popper {
   margin-top: 0px !important;
-  top: 60px !important;
+  top: 58px !important;
 }
 </style>
