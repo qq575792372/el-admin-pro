@@ -47,6 +47,7 @@
 </template>
 <script>
 import variables from "@/styles/variables.scss";
+import { sidebarTitle } from "@/settings";
 export default {
   name: "SidebarLogo",
   props: {
@@ -57,9 +58,8 @@ export default {
   },
   data() {
     return {
-      title: "后台管理",
-      logo:
-        "https://wpimg.wallstcn.com/69a1c46c-eb1c-4b46-8bd4-e9e686ef5251.png"
+      title: sidebarTitle,
+      logo: require("../../../assets/logo.png")
     };
   },
   computed: {
@@ -97,8 +97,8 @@ export default {
     width: 100%;
 
     & .sidebar-logo {
-      width: 32px;
-      height: 32px;
+      max-width: 32px;
+      max-height: 32px;
       vertical-align: middle;
       margin-right: 12px;
     }

@@ -1,5 +1,13 @@
 module.exports = {
+  /**
+   * 页面标签的title
+   */
   title: "Vue Element 后台管理",
+
+  /**
+   * 菜单的title
+   */
+  sidebarTitle: "后台管理",
 
   /**
    * 侧边栏主题色，深色主题theme-dark，浅色主题theme-light，默认深色theme-dark
