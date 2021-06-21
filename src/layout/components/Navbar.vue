@@ -16,7 +16,6 @@
     <!-- 右侧头像 -->
     <div class="right-menu">
       <span class="avatar_title">
-        欢迎您，管理员
         <span style="padding-left:3px; font-weight:bold;">{{ name }}</span>
       </span>
 
@@ -45,7 +44,7 @@
 import { mapGetters } from "vuex";
 import Breadcrumb from "@/components/Breadcrumb";
 import Hamburger from "@/components/Hamburger";
-import TopNav from "@/components/TopNav";
+import TopNav from "@/layout/components/TopNav";
 
 export default {
   components: {

@@ -12,7 +12,7 @@
         v-if="index < visibleNumber"
       >
         <!-- 兼容svg图片和el-icon -->
-        <item
+        <nav-item
           v-if="item.meta"
           :icon="item.meta && item.meta.icon"
           :title="item.meta.title"
@@ -32,7 +32,7 @@
           v-if="index >= visibleNumber"
         >
           <!-- 兼容svg图片和el-icon -->
-          <item
+          <nav-item
             v-if="item.meta"
             :icon="item.meta && item.meta.icon"
             :title="item.meta.title"
@@ -45,10 +45,10 @@
 
 <script>
 import { mapGetters } from "vuex";
-import Item from "./Item";
+import NavItem from "./NavItem";
 
 export default {
-  components: { Item },
+  components: { NavItem },
   data() {
     return {
       // 顶部栏初始数
