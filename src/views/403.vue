@@ -1,9 +1,9 @@
 <template>
   <div class="error-container">
-    <img class="error-image" src="../assets/404_images/404.png" />
+    <img class="error-image" src="../assets/403_images/403.png" />
     <div class="error-content">
-      <div><h1>404</h1></div>
-      <div class="desc">抱歉，您访问的页面不存在</div>
+      <div><h1>403</h1></div>
+      <div class="desc">抱歉，您无权访问该页面</div>
       <el-button type="primary" @click="backHome" icon="el-icon-s-home">
         返回首页
       </el-button>
@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: "404",
+  name: "403",
   data() {
     return {};
   },

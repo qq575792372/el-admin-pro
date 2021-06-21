@@ -59,14 +59,19 @@ export const constantRoutes = [
 
   // 错误页面
   {
-    path: "/404",
-    component: () => import("@/views/404"),
+    path: "/403",
+    component: () => import("@/views/403"),
     hidden: true
   },
 
   {
-    path: "/401",
-    component: () => import("@/views/401"),
+    path: "/404",
+    component: () => import("@/views/404"),
+    hidden: true
+  },
+  {
+    path: "/500",
+    component: () => import("@/views/500"),
     hidden: true
   },
 
