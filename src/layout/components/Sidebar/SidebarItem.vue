@@ -51,6 +51,7 @@ export default {
     }
   },
   data() {
+    // 这里要写在外层，为了避免在一些极端情况下循环渲染出现报错
     this.onlyOneChild = null
     return {}
   },
