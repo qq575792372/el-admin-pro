@@ -43,11 +43,16 @@ export default {
       );
       const first = matched[0];
 
-      // 这段注释掉可以去掉面包屑第一个的 首页
+      // 如果当前路由是非首页，则面包屑最开始追加首页的链接
       if (!this.isDashboard(first)) {
-        matched = [{ path: "/index", meta: { title: "首页" } }].concat(matched);
+        matched = [
+          { path: "/dashboard/index", meta: { title: "首页" } }
+        ].concat(matched);
+      } else {
+        // 如果当前路由是首页，则面包屑只保留一个首页链接
+        matched = [{ path: "/dashboard/index", meta: { title: "首页" } }];
       }
-
+      // 匹配出来的路由链接列表
       this.levelList = matched.filter(
         item => item.meta && item.meta.title && item.meta.breadcrumb !== false
       );
@@ -57,7 +62,9 @@ export default {
       if (!name) {
         return false;
       }
-      return name.trim().toLocaleLowerCase() === "index".toLocaleLowerCase();
+      return (
+        name.trim().toLocaleLowerCase() === "dashboard".toLocaleLowerCase()
+      );
     },
     pathCompile(path) {
       // To solve this problem https://github.com/PanJiaChen/vue-element-admin/issues/561

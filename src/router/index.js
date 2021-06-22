@@ -85,6 +85,7 @@ export const constantRoutes = [
   // 首页
   {
     path: "/dashboard",
+    name: "dashboard",
     component: Layout,
     redirect: "/dashboard/index",
     meta: {
