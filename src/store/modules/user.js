@@ -67,13 +67,14 @@ const actions = {
   },
 
   // user logout
-  logout({ commit, state }) {
-    return new Promise((resolve, reject) => {
+  logout({ dispatch, commit, rootState, rootGetters, state }) {
+    return new Promise(async (resolve, reject) => {
       // remove token from cookie
-      removeToken();
+      await dispatch("resetToken");
       // reset router
       resetRouter();
-      commit("RESET_STATE");
+      // 不同模块之间action/mutations调用，需要传参，以及开启root=true
+      commit("permission/RESET_ROUTES", [], { root: true });
       resolve();
     });
   },

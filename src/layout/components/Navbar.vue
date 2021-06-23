@@ -15,7 +15,7 @@
 
     <!-- 右侧头像 -->
     <div class="right-menu">
-      <span class="avatar_title">
+      <span class="avatar-title">
         <span style="padding-left:3px; font-weight:bold;">{{ name }}</span>
       </span>
 
@@ -75,9 +75,18 @@ export default {
     toggleSideBar() {
       this.$store.dispatch("app/toggleSideBar");
     },
-    async logout() {
-      await this.$store.dispatch("user/logout");
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`);
+    logout() {
+      this.$confirm("确定退出登录吗？", "提示", {
+        type: "warning"
+      })
+        .then(async () => {
+          // clcik ok
+          await this.$store.dispatch("user/logout");
+          this.$router.push(`/login?redirect=${this.$route.fullPath}`);
+        })
+        .catch(() => {
+          // click no
+        });
     }
   }
 };
@@ -92,7 +101,7 @@ export default {
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
 
   .hamburger-container {
-    line-height: 46px;
+    line-height: 48px;
     height: 100%;
     float: left;
     cursor: pointer;
@@ -118,7 +127,7 @@ export default {
     height: 100%;
     line-height: 50px;
 
-    .avatar_title {
+    .avatar-title {
       font-size: 14px;
       color: #303133;
       position: relative;

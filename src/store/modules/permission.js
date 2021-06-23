@@ -36,6 +36,11 @@ const state = {
 
 // mutations
 const mutations = {
+  RESET_ROUTES: (state, routes) => {
+    state.addRoutes = [];
+    state.routes = [];
+    state.sidebarRoutes = [];
+  },
   SET_ROUTES: (state, routes) => {
     state.addRoutes = routes;
     state.routes = constantRoutes.concat(routes);
