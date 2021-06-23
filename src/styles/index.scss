@@ -1,3 +1,8 @@
+/**
+ * index.scss
+ * 样式入口，引入其他所有基础style的定义，并封装一些常用的css
+ */
+
 @import "./variables.scss";
 @import "./mixin.scss";
 @import "./transition.scss";
