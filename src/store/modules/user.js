@@ -6,7 +6,6 @@ const getDefaultState = () => {
   return {
     token: getToken(),
     name: sessionStorage.getItem("USER_NAME") || "",
-    avatar: ""
   };
 };
 
@@ -22,9 +21,6 @@ const mutations = {
   SET_NAME: (state, name) => {
     state.name = name;
   },
-  SET_AVATAR: (state, avatar) => {
-    state.avatar = avatar;
-  }
 };
 
 const actions = {

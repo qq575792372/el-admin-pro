@@ -53,7 +53,7 @@ export default {
     TopNav
   },
   computed: {
-    ...mapGetters(["sidebar", "avatar", "name"]),
+    ...mapGetters(["sidebar", "name"]),
     setting: {
       get() {
         return this.$store.state.settings.showSettings;
