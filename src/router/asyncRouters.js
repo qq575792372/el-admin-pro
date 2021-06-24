@@ -165,7 +165,7 @@ export const asyncRouters = [
       title: "订单",
       icon: "el-icon-s-order"
     },
-    alwaysShow: false,
+    alwaysShow: true,
     children: [
       {
         path: "orderList",

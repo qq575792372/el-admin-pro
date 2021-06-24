@@ -114,6 +114,7 @@
     }
   }
 
+  // 折叠菜单后样式
   .hideSidebar {
     .sidebar-container {
       width: 54px !important;
@@ -148,14 +149,24 @@
 
         .svg-icon {
           margin-left: 20px;
+          transition: color 0.2s;
         }
 
         .sub-el-icon {
           margin-left: 18px;
+          transition: color 0.2s;
         }
 
         .el-submenu__icon-arrow {
           display: none;
+        }
+      }
+
+      // 菜单折叠时，选中的侧边栏主菜单图标设置主题色
+      &.is-active > .el-submenu__title {
+        .svg-icon,
+        .sub-el-icon {
+          color: #{"var(--current-color)"} !important;
         }
       }
     }
