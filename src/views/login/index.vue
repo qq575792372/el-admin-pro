@@ -18,10 +18,8 @@
         <!-- 用户名 -->
         <el-form-item prop="username">
           <el-input
-            ref="username"
             v-model="loginForm.username"
             placeholder="输入用户名"
-            name="username"
             type="text"
             tabindex="1"
             auto-complete="on"
@@ -37,7 +35,6 @@
             v-model="loginForm.password"
             :type="passwordType"
             placeholder="输入密码"
-            name="password"
             tabindex="2"
           >
             <svg-icon slot="prefix" icon-class="password" />
@@ -58,7 +55,6 @@
                 ref="validcode"
                 v-model="loginForm.validcode"
                 placeholder="输入验证码"
-                name="validcode"
                 type="text"
                 tabindex="3"
               >
@@ -306,7 +302,8 @@ export default {
       font-weight: bold;
       text-align: center;
       color: #303133;
-      padding: 20px;
+      height: 64px;
+      line-height: 64px;
       border-bottom: solid 1px #e8eaec;
     }
 
@@ -359,6 +356,14 @@ export default {
     font-size: 12px;
     letter-spacing: 1px;
     z-index: 10;
+  }
+}
+</style>
+<style lang="scss">
+.login-form {
+  .el-input .el-input__prefix {
+    left: 10px;
+    color: #808695;
   }
 }
 </style>
