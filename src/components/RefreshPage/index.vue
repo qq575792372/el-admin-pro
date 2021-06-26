@@ -1,3 +1,4 @@
+<!-- layout导航栏刷新页面组件 -->
 <template>
   <div style="padding: 0 10px;" @click="handleRefresh">
     <svg

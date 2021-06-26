@@ -1,3 +1,4 @@
+<!-- 颜色选择器组件 -->
 <template>
   <el-color-picker
     v-model="theme"

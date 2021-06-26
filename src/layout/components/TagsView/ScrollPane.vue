@@ -1,7 +1,7 @@
 <template>
   <div class="scroll-container">
     <el-button
-      class="scroll-prev"
+      class="scroll-btn"
       icon="el-icon-arrow-left"
       @click="handleLeftScroll(-240)"
     ></el-button>
@@ -14,7 +14,7 @@
       <slot />
     </el-scrollbar>
     <el-button
-      class="scroll-next"
+      class="scroll-btn"
       icon="el-icon-arrow-right"
       @click="handleLeftScroll(240)"
     ></el-button>
@@ -107,20 +107,24 @@ export default {
 <style lang="scss" scoped>
 .scroll-container {
   display: flex;
-  .scroll-prev,
-  .scroll-next {
+  white-space: nowrap;
+  position: relative;
+  width: 100%;
+  // 左右按钮
+  .scroll-btn {
     padding: 6px;
-    height: 34px;
+    height: 33px;
     font-size: 12px;
     border-radius: 0px;
     text-align: center;
+    border: none;
+    background: transparent;
+    font-weight: bold;
+    font-size: 14px;
   }
   .scroll-inner {
-    white-space: nowrap;
-    position: relative;
-    overflow: hidden;
-    width: 100%;
     flex: 1;
+    width:auto;
     ::v-deep {
       .el-scrollbar__bar {
         bottom: 0px;

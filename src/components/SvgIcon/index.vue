@@ -1,3 +1,4 @@
+<!-- 使用Svg组件 -->
 <template>
   <div
     v-if="isExternal"

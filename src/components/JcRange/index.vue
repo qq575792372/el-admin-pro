@@ -1,3 +1,4 @@
+<!-- 验证码滑动组件 -->
 <template>
   <div class="jc-range-container">
     <div class="jc-range" :class="rangeStatus ? 'success' : ''">

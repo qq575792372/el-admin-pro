@@ -1,3 +1,4 @@
+<!-- 布局设置组件 -->
 <template>
   <el-drawer
     ref="rightPanel"

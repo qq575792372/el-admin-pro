@@ -1,3 +1,4 @@
+<!-- layout的折叠菜单组件 -->
 <template>
   <div style="padding: 0 10px;" @click="toggleClick">
     <svg

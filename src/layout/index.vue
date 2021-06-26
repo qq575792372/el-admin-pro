@@ -22,7 +22,7 @@
         <tags-view v-if="needTagsView" />
       </div>
       <app-main />
-      <right-panel>
+      <right-panel v-if="showSettings">
         <settings />
       </right-panel>
     </div>

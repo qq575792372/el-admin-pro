@@ -1,3 +1,4 @@
+<!-- layout的面包屑导航组件 -->
 <template>
   <el-breadcrumb class="app-breadcrumb" separator="/">
     <transition-group name="breadcrumb">
