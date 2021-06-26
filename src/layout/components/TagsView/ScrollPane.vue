@@ -7,7 +7,6 @@
     ></el-button>
     <el-scrollbar
       ref="scrollContainer"
-      :vertical="false"
       class="scroll-inner"
       @wheel.native.prevent="handleScroll"
     >
@@ -124,7 +123,7 @@ export default {
   }
   .scroll-inner {
     flex: 1;
-    width:auto;
+    width: auto;
     ::v-deep {
       .el-scrollbar__bar {
         bottom: 0px;

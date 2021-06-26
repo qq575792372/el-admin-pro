@@ -11,6 +11,7 @@ function resolve(dir) {
 const name = defaultSettings.title || "Vue Element Admin Template";
 
 // dev port
+// you can change the port > npm run dev --port=8000
 const port = process.env.port || process.env.npm_config_port || 9000;
 
 // All configuration item explanations can be find in https://cli.vuejs.org/config/
