@@ -2,57 +2,52 @@
 const path = require("path");
 const defaultSettings = require("./src/settings.js");
 
+// 转换路径
 function resolve(dir) {
   return path.join(__dirname, dir);
 }
 
-const name = defaultSettings.title || "vue Element Admin Template"; // page title
+// page title
+const name = defaultSettings.title || "Vue Element Admin Template";
 
-// If your port is set to 80,
-// use administrator privileges to execute the command line.
-// For example, Mac: sudo npm run
-// You can change the port by the following methods:
-// port = 9000 npm run dev OR npm run dev --port = 9000
-const port = process.env.port || process.env.npm_config_port || 9000; // dev port
+// dev port
+const port = process.env.port || process.env.npm_config_port || 9000;
 
 // All configuration item explanations can be find in https://cli.vuejs.org/config/
 module.exports = {
-  /**
-   * You will need to set publicPath if you plan to deploy your site under a sub path,
-   * for example GitHub Pages. If you plan to deploy your site to https://foo.github.io/bar/,
-   * then publicPath should be set to "/bar/".
-   * In most cases please use '/' !!!
-   * Detail: https://cli.vuejs.org/config/#publicpath
-   */
-
-  // publicPath: '/vue-element-admin', // 如果需要配置访问前缀，需要加上名称
-  publicPath: "/",
+  publicPath: "/", // 服务部署后访问路径前缀，默认“/”
   outputDir: "dist",
   assetsDir: "static",
   // lintOnSave: process.env.NODE_ENV === 'development',
   lintOnSave: false,
-  productionSourceMap: process.env.NODE_ENV === "development" ? true : false, // 开发环境会开启sourcemap
+  productionSourceMap: process.env.NODE_ENV === "development" ? true : false, // 开发环境会开启sourceMap
   devServer: {
     port: port,
     open: true,
-    // 配置反向代理
+    // 配置反向代理，以及用法
     /*
     proxy: {
-        '/api': {
-          target: '<url>',
-          ws: true,
-          changeOrigin: true
-        },
-        '/foo': {
-          target: '<other_url>'
+      "/api": {
+        target: "http://192.168.0.18:8080",
+        changeOrigin: true,
+        pathRewrite: {
+          "^/api": "/" // 例如 /api/a/b 请求是以api开头的，实际代理后请求为：/a/b
         }
-    }, 
+      },
+      "/foo": {
+        target: "http://192.168.0.18:8080",
+        changeOrigin: true,
+        pathRewrite: {
+          "^/foo": "/foo" // 例如 /foo/a/b 请求是以foo开头的，实际代理后请求为：foo/a/b
+        }
+      }
+    },
     */
     overlay: {
       warnings: false,
       errors: true
     },
-    // 引入mock服务
+    // 引入mock服务，如果正式联调后不需要，可以注释掉
     before: require("./mock/mock-server.js")
   },
   configureWebpack: {
@@ -118,22 +113,27 @@ module.exports = {
             name: "chunk-libs",
             test: /[\\/]node_modules[\\/]/,
             priority: 10,
-            chunks: "initial" // only package third parties that are initially dependent
+            chunks: "initial"
           },
           elementUI: {
             name: "chunk-elementUI", // split elementUI into a single package
             priority: 20, // the weight needs to be larger than libs and app or it will be packaged into libs or app
-            test: /[\\/]node_modules[\\/]_?element-ui(.*)/ // in order to adapt to cnpm
+            test: /[\\/]node_modules[\\/]_?element-ui(.*)/
           },
           antDesignUI: {
             name: "chunk-antDesignUI", // split antDesignUI into a single package
             priority: 20, // the weight needs to be larger than libs and app or it will be packaged into libs or app
             test: /[\\/]node_modules[\\/]_?ant-design(.*)/ // in order to adapt to cnpm
           },
+          viewDesignUI: {
+            name: "chunk-viewDesignUI", // split viewDesignUI into a single package
+            priority: 20, // the weight needs to be larger than libs and app or it will be packaged into libs or app
+            test: /[\\/]node_modules[\\/]_?view-design(.*)/
+          },
           vantUI: {
             name: "chunk-vantUI", // split vantUI into a single package
             priority: 20, // the weight needs to be larger than libs and app or it will be packaged into libs or app
-            test: /[\\/]node_modules[\\/]_?vant(.*)/ // in order to adapt to cnpm
+            test: /[\\/]node_modules[\\/]_?vant(.*)/
           },
           echarts: {
             name: "chunk-echarts",

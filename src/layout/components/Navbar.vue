@@ -7,6 +7,13 @@
       @toggleClick="toggleSideBar"
     />
 
+    <!-- 刷新当前页面 -->
+    <refresh-page
+      :is-active="sidebar.opened"
+      class="refresh-container"
+      @toggleClick="toggleSideBar"
+    />
+
     <!-- 面包屑导航 -->
     <breadcrumb class="breadcrumb-container" v-if="!topNav" />
 
@@ -44,12 +51,14 @@
 import { mapGetters } from "vuex";
 import Breadcrumb from "@/components/Breadcrumb";
 import Hamburger from "@/components/Hamburger";
+import RefreshPage from "@/components/RefreshPage";
 import TopNav from "@/layout/components/TopNav";
 
 export default {
   components: {
     Breadcrumb,
     Hamburger,
+    RefreshPage,
     TopNav
   },
   computed: {
@@ -100,16 +109,18 @@ export default {
   background: #fff;
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
 
-  .hamburger-container {
+  .hamburger-container,
+  .refresh-container {
     line-height: 48px;
     height: 100%;
     float: left;
     cursor: pointer;
+    color: #515a6e;
     transition: background 0.3s;
     -webkit-tap-highlight-color: transparent;
 
     &:hover {
-      background: rgba(0, 0, 0, 0.025);
+      background: rgba(0, 0, 0, 0.035);
     }
   }
 
