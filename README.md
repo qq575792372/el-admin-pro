@@ -17,8 +17,11 @@ npm install --registry=https://registry.npm.taobao.org
 # 启动服务
 npm run dev
 
-# 或者npm start命令启动服务
+# 或者npm start命令快捷启动
 npm start
+
+# 也可以自定义端口启动
+npm run dev --port=8000
 ```
 
 服务启动成功后，浏览器访问 [http://localhost:9000](http://localhost:9000)
