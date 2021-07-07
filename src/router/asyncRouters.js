@@ -1,4 +1,5 @@
 import Layout from "@/layout";
+import ParentView from "@/components/ParentView";
 
 /**
  * 异步路由列表，模拟后台加载菜单后生成的路由数据
@@ -233,6 +234,8 @@ export const asyncRouters = [
         meta: {
           title: "销售统计"
         },
+        component: ParentView,
+        // 多级菜单，需要设置parent的组件为ParentView才可以
         children: [
           {
             path: "saleNum",
