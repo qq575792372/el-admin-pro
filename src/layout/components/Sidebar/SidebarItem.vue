@@ -84,6 +84,9 @@ export default {
 
       return false
     },
+    /**
+     * 转换路径，会拼加basePath + 当前路径
+     */
     resolvePath(routePath) {
       if (isExternal(routePath)) {
         return routePath
@@ -91,7 +94,9 @@ export default {
       if (isExternal(this.basePath)) {
         return this.basePath
       }
-      return path.resolve(this.basePath, routePath)
+      // 修复多级菜单下，如果包含子级的菜单多重复拼加当前routePath的问题
+      let basePath = this.basePath.replace(routePath, "");
+      return path.resolve(basePath, routePath)
     }
   }
 }
