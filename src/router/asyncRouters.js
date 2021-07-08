@@ -378,8 +378,13 @@ export const asyncRouters = [
 
   // 跳转外部链接
   {
+    path: "https://cn.bing.com",
+    name: "linkBiying",
+    meta: { title: "当前窗口打开", icon: "el-icon-share" }
+  },
+  {
     path: "https://www.baidu.com",
     name: "linkBaidu",
-    meta: { title: "跳转百度", icon: "el-icon-share" }
+    meta: { title: "打开新窗口", icon: "el-icon-share", target: "_blank" }
   }
 ];
