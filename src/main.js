@@ -30,7 +30,7 @@ import MetaInfo from "vue-meta-info";
 // Vue.use(ElementUI, { locale })
 
 // set ElementUI lang to zh
-Vue.use(ElementUI);
+Vue.use(ElementUI, { size: "medium" });
 
 // set vue-meta-info
 Vue.use(MetaInfo);

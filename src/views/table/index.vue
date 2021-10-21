@@ -4,40 +4,19 @@
     <div class="header-container">
       <!-- 查询条件 -->
       <div class="search-box">
-        <el-input
-          type="text"
-          v-model="listQuery.name"
-          placeholder="活动名称"
-          clearable
-          size="small"
-          style="width:160px"
-        ></el-input>
-        <el-select
-          v-model="listQuery.status"
-          placeholder="活动状态"
-          clearable
-          size="small"
-          style="width:120px"
-        >
+        <el-input type="text" v-model="listQuery.name" placeholder="活动名称" clearable style="width:160px"></el-input>
+        <el-select v-model="listQuery.status" placeholder="活动状态" clearable style="width:120px">
           <el-option value="0" label="待开始"></el-option>
           <el-option value="1" label="进行中"></el-option>
-          <el-option value="2" label="已结束"></el-option> </el-select
-        >&nbsp;&nbsp;
-        <el-button type="primary" size="small" @click="queryData"
-          >查询</el-button
-        >
-        <el-button type="default" size="small" @click="resetQueryData"
-          >重置</el-button
-        >
+          <el-option value="2" label="已结束"></el-option>
+        </el-select>
+        &nbsp;&nbsp;
+        <el-button type="primary" @click="queryData">查询</el-button>
+        <el-button type="default" @click="resetQueryData">重置</el-button>
       </div>
       <!-- 按钮操作 -->
       <div class="operate-box">
-        <el-button
-          icon="el-icon-plus"
-          size="small"
-          type="primary"
-          @click="showAddModal"
-        >
+        <el-button icon="el-icon-plus" type="primary" @click="showAddModal">
           添加活动
         </el-button>
       </div>
@@ -45,35 +24,22 @@
 
     <!-- 表格 -->
     <div class="table-container">
-      <el-table
-        v-loading="listLoading"
-        :data="list"
-        size="small"
-        highlight-current-row
-      >
+      <el-table v-loading="listLoading" :data="list" highlight-current-row>
         <el-table-column align="center" label="序号" width="70">
           <template slot-scope="scope">
-            {{
-              listQuery.pageSize * (listQuery.pageNo - 1) + (scope.$index + 1)
-            }}
+            {{ listQuery.pageSize * (listQuery.pageNo - 1) + (scope.$index + 1) }}
           </template>
         </el-table-column>
         <el-table-column align="center" label="活动名称">
           <template slot-scope="scope">{{ scope.row.name }}</template>
         </el-table-column>
         <el-table-column align="center" label="参与价格">
-          <template slot-scope="scope">
-            ￥{{ Number(scope.row.price).toFixed(2) }}
-          </template>
+          <template slot-scope="scope">￥{{ Number(scope.row.price).toFixed(2) }}</template>
         </el-table-column>
         <el-table-column align="center" label="状态">
           <template slot-scope="scope">
-            <span class="text-warning" v-if="scope.row.status == 0"
-              >待开始</span
-            >
-            <span class="text-success" v-if="scope.row.status == 1"
-              >进行中</span
-            >
+            <span class="text-warning" v-if="scope.row.status == 0">待开始</span>
+            <span class="text-success" v-if="scope.row.status == 1">进行中</span>
             <span class="text-danger" v-if="scope.row.status == 2">已结束</span>
           </template>
         </el-table-column>
@@ -82,20 +48,10 @@
         </el-table-column>
         <el-table-column align="center" label="操作">
           <template slot-scope="scope">
-            <el-link
-              type="primary"
-              size="small"
-              :underline="false"
-              @click="showEditModal(scope.row)"
-            >
+            <el-link type="primary" :underline="false" @click="showEditModal(scope.row)">
               编辑
             </el-link>
-            <el-link
-              type="danger"
-              size="small"
-              :underline="false"
-              @click="handleDelete(scope.row)"
-            >
+            <el-link type="danger" :underline="false" @click="handleDelete(scope.row)">
               删除
             </el-link>
           </template>
@@ -119,20 +75,9 @@
 
     <!-- 弹出框 -->
     <!-- 添加和编辑 -->
-    <el-dialog
-      :title="editForm.id ? '编辑活动' : '添加活动'"
-      :visible.sync="editModal"
-      width="960px"
-    >
+    <el-dialog :title="editForm.id ? '编辑活动' : '添加活动'" :visible.sync="editModal" width="960px">
       <div>
-        <el-form
-          :model="editForm"
-          :rules="editFormRules"
-          ref="editFormRef"
-          label-suffix="："
-          label-width="100px"
-          size="small"
-        >
+        <el-form :model="editForm" :rules="editFormRules" ref="editFormRef" label-suffix="：" label-width="100px">
           <el-form-item label="活动名称" prop="name">
             <el-input
               v-model.trim="editForm.name"
@@ -142,12 +87,7 @@
             ></el-input>
           </el-form-item>
           <el-form-item label="参与价格" prop="price">
-            <el-input
-              v-model.trim="editForm.price"
-              placeholder="请输入参与价格"
-              style="width: 300px"
-              clearable
-            >
+            <el-input v-model.trim="editForm.price" placeholder="请输入参与价格" style="width: 300px" clearable>
               <template slot="append">￥</template>
             </el-input>
           </el-form-item>
@@ -171,21 +111,14 @@
           </el-form-item>
           <el-form-item label="活动介绍" prop="desc">
             <div class="components-container">
-              <tinymce
-                v-model="editForm.desc"
-                id="tinymce1"
-                :height="360"
-                ref="descRef"
-              />
+              <tinymce v-model="editForm.desc" id="tinymce1" :height="360" ref="descRef" />
             </div>
           </el-form-item>
         </el-form>
       </div>
       <div slot="footer" style="text-align: center">
-        <el-button @click="editModal = false" size="small">取消</el-button>
-        <el-button type="primary" @click="handleSubmit" size="small"
-          >确定</el-button
-        >
+        <el-button @click="editModal = false">取消</el-button>
+        <el-button type="primary" @click="handleSubmit">确定</el-button>
       </div>
     </el-dialog>
 
@@ -274,8 +207,7 @@ export default {
         id: 1,
         name: "活动1",
         price: 10.0,
-        imageUrl:
-          "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3946423775,168689942&fm=26&gp=0.jpg",
+        imageUrl: "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3946423775,168689942&fm=26&gp=0.jpg",
         status: 0,
         desc: "<h1>测试1111</h1>",
         createTime: "2020-08-10 10:10:10"
@@ -284,8 +216,7 @@ export default {
         id: 2,
         name: "活动2",
         price: 10.0,
-        imageUrl:
-          "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3946423775,168689942&fm=26&gp=0.jpg",
+        imageUrl: "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3946423775,168689942&fm=26&gp=0.jpg",
         status: 1,
         desc: "<h1>测试2222</h1>",
         createTime: "2020-08-10 10:10:10"
@@ -294,8 +225,7 @@ export default {
         id: 3,
         name: "活动3",
         price: 10.0,
-        imageUrl:
-          "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3946423775,168689942&fm=26&gp=0.jpg",
+        imageUrl: "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3946423775,168689942&fm=26&gp=0.jpg",
         status: 2,
         desc: "<h1>测试333</h1>",
         createTime: "2020-08-10 10:10:10"
@@ -397,13 +327,7 @@ export default {
 
     // 上传图片钱验证图片类型和大小
     beforeUploadImage(file) {
-      const IMAGE_TYPE = [
-        "image/png",
-        "image/jpg",
-        "image/jpeg",
-        "image/bmp",
-        "image/gif"
-      ];
+      const IMAGE_TYPE = ["image/png", "image/jpg", "image/jpeg", "image/bmp", "image/gif"];
       const MAX_SIZE = file.size / 1024 / 1024 < 2;
       // 验证文件类型
       if (!IMAGE_TYPE.includes(file.type)) {

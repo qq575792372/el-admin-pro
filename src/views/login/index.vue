@@ -8,13 +8,7 @@
       <div class="login-title">
         后台管理登录
       </div>
-      <el-form
-        ref="loginForm"
-        :model="loginForm"
-        :rules="loginRules"
-        class="login-form"
-        label-position="left"
-      >
+      <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" label-position="left">
         <!-- 用户名 -->
         <el-form-item prop="username">
           <el-input
@@ -22,6 +16,7 @@
             placeholder="输入用户名"
             type="text"
             tabindex="1"
+            size="default"
             auto-complete="on"
           >
             <i slot="prefix" class="el-icon-user-solid"></i>
@@ -35,6 +30,7 @@
             v-model="loginForm.password"
             :type="passwordType"
             placeholder="输入密码"
+            size="default"
             tabindex="2"
           >
             <svg-icon slot="prefix" icon-class="password" />
@@ -56,16 +52,13 @@
                 v-model="loginForm.validcode"
                 placeholder="输入验证码"
                 type="text"
+                size="default"
                 tabindex="3"
               >
                 <svg-icon slot="prefix" icon-class="validCode" />
               </el-input>
             </div>
-            <img
-              class="valid-img"
-              :src="validImageUrl"
-              @click="handleChangeValidImageUrl"
-            />
+            <img class="valid-img" :src="validImageUrl" @click="handleChangeValidImageUrl" />
           </div>
         </el-form-item>
         <!-- 登录 -->
@@ -73,17 +66,17 @@
           :loading="loginLoading"
           type="primary"
           tabindex="4"
+          size="default"
           style="width:100%; margin-bottom:15px; margin-top:10px; border-radius:6px;"
           @click.native.prevent="handleLogin"
-          >{{ loginLoading ? "登录中.." : "登录" }}</el-button
         >
+          {{ loginLoading ? "登录中.." : "登录" }}
+        </el-button>
       </el-form>
       <!-- 去注册和忘记密码 -->
       <div class="login-operate">
         <el-link size="small" :underline="false" type="primary">去注册</el-link>
-        <el-link size="small" :underline="false" type="primary"
-          >忘记密码?</el-link
-        >
+        <el-link size="small" :underline="false" type="primary">忘记密码?</el-link>
       </div>
       <!-- 底部提示 -->
       <div class="login-tips">
@@ -157,8 +150,7 @@ export default {
 
       // 验证码图片地址
       validImageUrl: (this.validImageUrl =
-        "http://119.23.220.221:8090/hltrip_web/kaptcha/adminKaptcha?t=" +
-        new Date().getTime()),
+        "http://119.23.220.221:8090/hltrip_web/kaptcha/adminKaptcha?t=" + new Date().getTime()),
 
       // 登录loading
       loginLoading: false,
@@ -241,9 +233,7 @@ export default {
      * 点击更改验证码图片
      */
     handleChangeValidImageUrl() {
-      this.validImageUrl =
-        "http://119.23.220.221:8090/hltrip_web/kaptcha/adminKaptcha?t=" +
-        new Date().getTime();
+      this.validImageUrl = "http://119.23.220.221:8090/hltrip_web/kaptcha/adminKaptcha?t=" + new Date().getTime();
     }
   },
   destroyed() {
