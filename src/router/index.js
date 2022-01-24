@@ -36,26 +36,6 @@ import Layout from "@/layout";
  * all roles can be accessed
  */
 export const constantRoutes = [
-  // tags-view刷新页面中间件
-  {
-    path: "/redirect",
-    component: Layout,
-    hidden: true,
-    children: [
-      {
-        path: "/redirect/:path(.*)",
-        component: resolve => require(["@/views/redirect"], resolve)
-      }
-    ]
-  },
-
-  // 登录
-  {
-    path: "/login",
-    component: () => import("@/views/login/index"),
-    hidden: true
-  },
-
   // 错误页面
   {
     path: "/403",
@@ -68,17 +48,11 @@ export const constantRoutes = [
     component: () => import("@/views/404"),
     hidden: true
   },
-  {
-    path: "/500",
-    component: () => import("@/views/500"),
-    hidden: true
-  },
 
   // 默认路由跳转到首页
   {
     path: "/",
-    redirect: "/dashboard/index",
-    component: Layout
+    redirect: "/dashboard/index"
   },
 
   // 首页
@@ -86,24 +60,18 @@ export const constantRoutes = [
     path: "/dashboard",
     name: "dashboard",
     component: Layout,
-    redirect: "/dashboard/index",
     meta: {
-      title: "首页",
-      icon: "el-icon-s-home"
+      title: "首页"
     },
     children: [
       {
         path: "index",
         name: "index",
         component: () => import("@/views/dashboard/index"),
-        meta: { title: "首页", affix: true }
+        meta: { title: "工作台", affix: true }
       }
     ]
   }
-
-  // 404 page must be placed at the end !!!
-  // 如果有权限菜单，需要写在权限路由加载后的最后面，不然刷新页面会404
-  // { path: "*", redirect: "/404", hidden: true }
 ];
 
 const createRouter = () =>
